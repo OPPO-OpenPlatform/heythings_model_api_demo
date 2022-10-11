@@ -1,0 +1,47 @@
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.meshNodeFeature;
+option objc_class_prefix = "Iot_Service_MeshNodeFeature_";
+
+message MeshNetIndex {
+    uint32 netIdx = 1;
+}
+
+message MeshAppIndex {
+    uint32 appIdx = 1;
+}
+
+message MeshElement {
+    message MeshModel {
+        message MeshModelPublish {
+            uint32 dst = 1;             //publish addr
+            uint32 key = 2;             //publish appkey index
+        }
+
+        message MeshGroup {
+            uint32 group = 1;
+        }
+    
+        uint32 companyId = 1;           //sig model is 0xffff
+        uint32 modelId = 2;
+        MeshModelPublish pub = 3;
+        repeated uint32 appkeyIdx = 4;     //appkey idx list
+        repeated uint32 groups = 5;     //group addr list
+    }
+
+    uint32 addr = 1;  
+    repeated MeshModel meshModel = 2; 
+}
+
+message Properties {
+    uint32 primaryElemAddr = 1;
+    repeated ArrayNode meshElement = 2;
+    repeated ArrayNode meshNetIndex = 3;
+    repeated ArrayNode meshAppIndex = 4;
+    //feature bit: bit0-1 friend, bit2-3 low power, bit4-5 relay, bit6-7 proxy
+    //feature value: 00 support & disable, 01 support & enable, 10 not support, 11 prohibited
+    uint32 feature = 5; 
+}

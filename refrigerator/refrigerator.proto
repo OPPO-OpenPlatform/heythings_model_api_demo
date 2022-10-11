@@ -1,0 +1,47 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file refrigerator.proto
+ * @brief refrigerator service proto
+ * @version 0.1
+ * @date 2020-12-4
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ package iot.service.refrigerator;
+option objc_class_prefix = "Iot_Service_Refrigerator_";
+ 
+ enum RefrigeratorLevel{
+    NONE = 0;
+    LEVELONE = 1;
+    LEVELTWO = 2;
+    LEVELTHREE = 3;
+    LEVELFOUR = 4;
+    LEVELFIVE = 5;
+ }
+
+ message Properties{
+    bool power = 1;
+    string  devLable = 2;
+    RefrigeratorLevel refrigeratorLevel = 3;
+    int32 currentTemperature = 4;
+    int32 targetTemperature = 5;
+    bool quickRefrigeratingMode = 6;
+    bool highHumidityMode = 7;
+    bool lightwavePreservationMode = 8;
+    bool radarModeEnabled = 9;
+    bool sterilizationEnabled = 10;
+    bool superFreshnessEnabled = 11;
+    bool odorlessnessEnabled = 12;
+    bool cleanFruitEnabled = 13;
+    bool colmoCleanFruit =14;
+    bool efficientSterilization = 15;
+    bool humidityControlEnabled = 16;
+    bool sfCompartmentPower = 17;
+    int32 sfCompartmentTemp = 18;
+    int32 sfCompartmentCurrentTemp = 19;
+    bool tCompartmentPower = 20;
+    bool wsCompartmentPower = 21;
+ }

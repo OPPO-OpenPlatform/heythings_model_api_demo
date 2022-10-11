@@ -1,0 +1,121 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file softwareUpdate.proto
+ * @brief softwareUpdate service proto
+ * @version 0.2
+ * @date 2020-2-17
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.softwareUpdate;
+option objc_class_prefix = "Iot_Service_SoftwareUpdate_";
+ 
+ enum EnumUpdateState{
+    IDLE = 0;
+    PREPARE = 1;
+    DOWNLOADING = 2;
+    DOWNLOADED = 3;
+    UPDATING = 4;
+    FATAL = 5; //致命错误，功能不可用，重启不可恢复
+ }
+
+ enum EnumUpdateError{
+    INITIAL  = 0;
+    NOT_ENOUGH_FLASH_MEMORY = 1;  
+    NOT_ENOUGH_RAM_MEMORY  = 2;
+    CONNECTION_LOST   = 3;
+    INTEGRITY_CHECK_FAILURE = 4;
+    INVALID_URL = 5;
+    UPDATE_FAILED = 6;
+    CURRENT_VERSION_ERR = 7;
+    SIGNATURE_TYPE_ERR = 8;
+    SIGNATURE_INVALID = 9;
+    MCU_UPDATE_FAILED = 10; //用于固件打包升级，mcu升级失败
+ }
+
+ enum SignatureType {
+    None = 0;
+    EcdsaSecp256r1Sha256 = 1;
+ }
+
+ message ActionInStartUpdate{  //iid is 5
+   // 软件更新包的链接
+   string packageURL = 1; 
+
+   // 验证当前版本
+   string validateFromVer = 2;
+
+   // 签名类型（设备不支持签名类型，则直接报告升级失败）
+   SignatureType signType = 3;
+
+   // 签名数据
+   bytes signatures = 4;
+ }
+
+ message ActionOutStartUpdate{
+
+ }
+
+message ActionInStartUpdateFile{
+  message FileInfo{
+    // 验证当前版本
+    string validateFromVer = 1;
+
+    // 签名类型
+    // 设备不支持签名类型，则直接报告升级失败。
+    SignatureType signType = 2;
+
+    // 签名数据
+    bytes signatures = 3;
+
+    // 升级包总大小，单位：Byte，-1表示未知大小
+    int64 size = 4;
+  }
+  message Final{
+
+  }
+
+  oneof sendType{
+    FileInfo fileInfo = 1; //升级包信息
+    bytes chunk = 2;   //分块传输数据
+    Final final = 3;   //文件传输结束
+  }
+}
+
+message ActionOutStartUpdateFile{
+  uint32 code = 1;   //0-接收成功
+}
+
+message ActionInQueryNewUpdate{
+
+}
+
+message ActionOutQueryNewUpdate{
+  string currentVer = 1;
+  string newVer = 2;
+  string desc = 3;  //release note
+}
+
+message ActionInPrepareForMeshNodeConnection{
+  bytes random = 1;  
+}
+
+message ActionOutPrepareForMeshNodeConnection{
+  uint32 bleAddrType = 1;
+  bytes bleAddr = 2;
+}
+
+message Properties{
+    string currentSoftwareVerName = 1;
+    uint32 updateProgress = 2;
+    EnumUpdateState updateState = 3;
+    EnumUpdateError updateError = 4;
+    // action startUpdate(ActionInStartUpdate) returns (ActionOutStartUpdate) = 5;
+    // action startUpdateFile(stream ActionInStartUpdateFile) returns (ActionOutStartUpdateFile) = 6; //由主动端发起正常结束事务
+    // action queryNewUpdate(ActionInQueryNewUpdate) returns (ActionOutQueryNewUpdate) = 7;
+    uint32 currentSoftwareVerCode = 8;
+    // action prepareForMeshNodeConnection(ActionInPrepareForMeshNodeConnection) returns (ActionOutPrepareForMeshNodeConnection) = 9;
+}

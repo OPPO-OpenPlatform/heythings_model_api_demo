@@ -1,0 +1,48 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file statistics.proto
+ * @brief statistics service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.statistics;
+option objc_class_prefix = "Iot_Service_Statistics_";
+ 
+ enum EnumDataType{
+    ENERGY_CONSUMPTION_DATA = 0;   //电量统计，对应message为EnergyConsumptionData
+    EVENT_TRACKING_DATA = 1;       //埋点数据，对应message为EventTrackingData
+ }
+ 
+ message EnergyConsumptionData{
+    //本条数据为当前时间点前1小时的电量统计
+    //当没有时间同步时，设备先按本地时间记录时间戳，不作上报
+    //待设备同步到时间后则按最新时间更新之前记录的时间戳，再上报数据
+    uint64 timestamp = 1;  
+    uint32 value = 2;  //单位kw/h，精度0.01
+ }
+
+ message EventTrackingData{  //对应siid为0xFA00
+    //本条数据为当前时间点发生的埋点事件
+    //当没有时间同步时，设备先按本地时间记录时间戳，不作上报
+    //待设备同步到时间后则按最新时间更新之前记录的时间戳，再上报数据
+    uint64 timestamp = 1; 
+    string key = 2;
+    bytes value = 3;
+ }
+
+ message StatisticsData{
+    uint32 siid = 1;            //对应设备抽象服务的siid，如排插插孔1的siid
+    EnumDataType dataType = 2;  //统计数据类型
+    repeated bytes data = 3;    //data由dataType对应message序列化
+ }
+
+ message Properties{
+    repeated ArrayNode statisticsData = 1;
+ }

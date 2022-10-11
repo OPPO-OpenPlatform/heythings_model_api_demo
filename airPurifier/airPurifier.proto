@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file airPurifier.proto
+ * @brief airPurifier service proto
+ * @version 0.3
+ * @date 2021-1-14
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ package iot.service.airPurifier;
+option objc_class_prefix = "Iot_Service_AirPurifier_";
+ 
+ enum ApMode {
+   MODE_MANUAL = 0;
+   MODE_SLEEP = 1;
+   MODE_TURBO = 2;
+   MODE_AUTO = 3;
+ }
+ 
+ message Properties{
+   bool power = 1;
+   ApMode apMode = 2;
+   bool sterilizationEnabled = 3;
+   bool childLockEnabled = 4;
+   bool hosting = 5;
+   uint32 pm2Out = 6;
+   uint32 pm2Upper = 7;
+   uint32 pm2Lower = 8;
+   uint32 appointmentPowerOn = 9;  //0-invalid
+   bool anionEnabled = 10;
+   uint32 brightness = 11;
+   bool mute = 12;
+   bool detectPm2p5 = 13;
+   bool detectHcho = 14;
+   uint32 appointmentPowerOff = 15; //0-invalid
+ }
+
+

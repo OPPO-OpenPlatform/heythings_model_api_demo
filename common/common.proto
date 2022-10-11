@@ -1,0 +1,6 @@
+syntax = "proto3";
+
+message ArrayNode {
+    uint32 id  = 1;
+    bytes data = 2;
+}

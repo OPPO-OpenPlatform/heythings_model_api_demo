@@ -1,0 +1,85 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file electricCooker.proto
+ * @brief electricCooker service proto
+ * @version 0.3
+ * @date 2021-1-14
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ package iot.service.electricCooker;
+option objc_class_prefix = "Iot_Service_ElectricCooker_";
+ 
+ enum ElectricCookerMode{
+    RICE = 0;
+    TURBO = 1;  
+    STANDARD = 2;
+    PORRIDGE = 3;
+    SOUP = 4;
+    STEAMING = 5;
+    CEREALANDRICE = 6;
+    BROWNRICE = 7;
+    HEATPRESERVATION = 8;
+ }
+
+ enum Taste{
+    SOFTTASTE = 0;
+    STANDARDTASTE = 1;
+    HARDTASTE = 2;
+    STICKYTASTE = 3;
+ }
+ 
+ enum Rice{
+    NORMAL = 0;
+    BASMATI = 1;
+    NORTHEASTRICE = 2;
+ }
+ 
+ message EventOpenAlarm{
+ 
+ }
+ 
+ enum CookerOperationMode{
+    COMPLETION = 0;
+    RESERVING = 1;
+    HEATPRESERVING = 2;
+    CANCELLATION = 3;
+    WORKING = 4;
+    awakeningRice = 5;
+ }
+ 
+ 
+ message AppointmentTaskCompleted{
+    bool status = 1;
+    string name = 2;
+    uint32 hour = 3;
+    uint32 min = 4;
+    uint32 sec = 5;
+ }
+ 
+ message EventCookingEnd{
+ 
+ }
+ 
+ message EventDryBraised{
+ 
+ }
+ 
+ message Properties{
+    bool power = 1;
+    ElectricCookerMode electricCookerMode = 2;
+    uint32 remainTime = 3;
+    uint32 preservingHeatDuration = 4;
+    uint32 heatPreservationTime = 5;
+    Taste taste = 6;
+    Rice rice = 7;
+    // event openAlarm(EventOpenAlarm) = 8;
+    int32 extraTimeForCooking = 9;
+    CookerOperationMode cookerOperationMode = 10;
+    AppointmentTaskCompleted appointmentTaskCompleted = 11;
+    // event cookingEnd(EventCookingEnd) = 12;
+    // event dryBraised(EventDryBraised) = 13;
+ }

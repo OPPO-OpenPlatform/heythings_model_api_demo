@@ -1,0 +1,48 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file humidifier.proto
+ * @brief humidifier service proto
+ * @version 0.3
+ * @date 2021-1-14
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ package iot.service.humidifier;
+option objc_class_prefix = "Iot_Service_Humidifier_";
+ 
+ enum HumidifierMode{
+    MODE_MANUAL  = 0;
+    MODE_AUTO = 1;  
+    MODE_CONTINUOUS  = 2;
+ }
+ 
+ enum FogVolume{
+    CLOSE = 0;
+    AUTO = 1;
+    LEVELONE = 2;  //1级
+    LEVELTWO = 3;  //2级
+ }
+ 
+  enum LightMode{
+    MANUAL  = 0;
+    READING = 1;  
+    SCREEN_READING  = 2;
+    SLEEP   = 3;
+    LEISURE = 4;
+ }
+ 
+ message Properties{
+   bool power = 1;
+   HumidifierMode humidifierMode = 2;
+   uint32 currentHumidity = 3;
+   uint32 targetHumidity = 4;
+   FogVolume fogVolume = 5;
+   uint32 appointmentPowerOn = 6;
+   bool sterilizationEnabled = 7;
+   uint32 sterilizationPercent = 8;  //0-invalid
+   LightMode lightMode = 9;
+   uint32 appointmentPowerOff = 10; //0-invalid
+ }

@@ -1,0 +1,96 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file burner.proto
+ * @brief burner service proto
+ * @version 0.2
+ * @date 2021-2-24
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ package iot.service.burner;
+option objc_class_prefix = "Iot_Service_Burner_";
+
+ message ActionInTurnOffFire{
+ 
+ }
+ 
+ message ActionOutTurnOffFire{
+ 
+ }
+ 
+ enum MachineStatus{
+   IDLE = 0;
+   PREACTIVE = 1;
+   ACTIVE = 2;
+   STOPPED = 3;
+   ERROR = 4;
+ }
+ 
+ enum MenuMode{
+   NONE_MODE = 0;
+   FISH_SOUP = 1;
+   CHICKEN_SOUP = 2;
+   PORKRIB_SOUP = 3;
+   STEAMING_FISH = 4;
+   STEAMING_EGG = 5;
+   DUMPLING = 6;
+   NOODLE = 7;
+   STEAK = 8;
+ }
+ 
+ enum SteakLevel{
+   NONE = 0;
+   RARE = 1;
+   MEDIUM_RARE = 2 ;
+   MEDIUM  = 3;
+   MEDIUM_WELL = 4;
+   WELL_DONE = 5;
+ }
+ 
+ enum Concentration{
+   NONE_LEVEL = 0;
+   LEVEL_ONE = 1;
+   LEVEL_TWO = 2;
+   LEVEL_THREE = 3;
+   LEVEL_FOUR = 4;
+ }
+  
+  message EventDryBraised{
+
+ }
+ 
+  message EventGasDetected{
+
+ }
+ 
+ message EventBurnerEventInformation{
+  uint32 messageNo = 1;
+ }
+ 
+
+ message Properties{
+   // action turnOffFire(ActionInTurnOffFire) returns (ActionOutTurnOffFire) = 1;
+   uint32 heatingLevel = 2;  // default value 0
+   uint32 targetTemperature = 3;
+   MenuMode menuMode = 4;
+   uint32 weight = 5;
+   uint32 thickness = 6;
+   SteakLevel steakLevel = 7;
+   Concentration concentration = 8;
+   uint32 operationTime = 9;
+   uint32 currentTemperature = 10;
+   MachineStatus machineStatus = 11;
+   // event dryBraised(EventDryBraised) = 12;
+   // event gasDetected(EventGasDetected) = 13;
+   // event burnerEventInformation(EventBurnerEventInformation) = 14;
+   bool constantTempEnabled = 15;
+   uint32 appointmentPowerOff = 16;
+   bool fireStatus = 17;
+   uint32 runningDuration = 18;
+   uint32 remainTime = 19;
+ }
+
+

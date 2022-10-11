@@ -1,0 +1,25 @@
+/**
+ * Copyright (c) 2008-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file devCapabilityDescription.proto
+ * @brief devCapabilityDescription service proto
+ * @version 0.1
+ * @date 2022-9-21
+ * @author Arrow.Lu
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.devCapabilityDescription;
+option objc_class_prefix = "Iot_Service_DevCapabilityDescription_";
+
+message Services {
+    uint32 siid = 1;
+    repeated uint32 iid = 2;
+}
+
+message Properties {
+    repeated ArrayNode services = 1; // Read Only
+}

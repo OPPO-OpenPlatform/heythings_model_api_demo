@@ -1,0 +1,46 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file baseLoadChiller.proto
+ * @brief baseLoadChiller service proto
+ * @version 0.1
+ * @date 2020-8-10
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.baseLoadChiller;
+option objc_class_prefix = "Iot_Service_BaseLoadChiller_";
+ 
+ message Properties{
+   bool power = 1;
+   bool mannulAutoSta = 2;
+   bool faultSta = 3;
+   uint32 supplyWaterRate = 4;
+   uint32 chwSupplyWaterTemp = 5;
+   uint32 chwReturnWaterTemp = 6;
+   uint32 cwSupplyWaterTemp = 7;
+   uint32 cwReturnWaterTemp = 8;
+   uint32 chwTargetSupplyWaterTemp = 9;
+   uint32 evaSatPres = 10;
+   uint32 evaSatTemp = 11;
+   uint32 conSatPres = 12;
+   uint32 conSatTemp =13;
+   uint32 evaAppTemp = 14;
+   uint32 conAppTemp = 15;
+   bool evaFlowSta = 16;
+   bool conFlowSta = 17;
+   bool cop = 18;
+   uint32 runningLoad = 19;
+   uint32 runningTime = 20;
+   uint32 ggOpening1 = 21;
+   uint32 ggOpening2 = 22;
+   uint32 ggOpening3 = 23;
+   uint32 motorCoilTemp1 = 24;
+   uint32 motorCoilTemp2 = 25;
+   uint32 motorCoilTemp3 = 26;
+   uint32 hVibrationValue = 27;
+   uint32 vVibrationValue = 28;
+
+ }

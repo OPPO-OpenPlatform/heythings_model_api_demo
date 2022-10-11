@@ -1,0 +1,98 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file light.proto
+ * @brief light service proto
+ * @version 0.5
+ * @date 2021-1-18
+ * @author Frank
+ */
+
+ syntax = "proto3";
+ 
+ import "common.proto";
+ 
+ package iot.service.light;
+option objc_class_prefix = "Iot_Service_Light_";
+ 
+ enum EnumLightMode{
+    MANUAL  = 0;
+    READING = 1;  
+    SCREEN_READING  = 2;
+    SLEEP   = 3;
+    LEISURE = 4;
+    PHOTOSENSITIVE = 5; //感光模式
+ }
+ 
+ message RGB{
+    uint32 r = 1;
+    uint32 g = 2;
+    uint32 b = 3;
+ }
+
+ message ActionInLightLanguage{  //iid is 8
+    enum EnumMode{
+        MISS_YOU = 0;
+        SLEEP_NOW = 1;
+        ALMOST_HOME = 2;
+    }
+
+    EnumMode mode = 1;
+ }
+ 
+ message ActionOutLightLanguage{
+    
+ }
+ 
+ message FreeControlNightLight{
+    bool enable = 1;
+    uint32 startHour = 2;
+    uint32 startMin = 3;
+    uint32 endHour = 4;
+    uint32 endMin =5;
+ }
+ 
+ message SceneCttBrightness{
+    EnumLightMode lightMode = 1;
+    uint32 colorTemp = 2;
+    uint32 brightness = 3;
+ }
+ 
+ message StudyTimeSetting{
+    uint32 repeatNum = 1;
+    uint32 studyTime = 2;
+    uint32 breakTime = 3;
+}
+
+message LightStudyMode {
+    enum Mode {
+        INIT = 0;
+        SELF_DEFINE = 1;
+        POMODORO = 2; //番茄钟，25分钟
+        CLASSROOM = 3; //课堂模式，45分钟
+    }
+    Mode mode = 1;
+    uint32 duration = 2; //对应不同 mode 的倒计时时长，单位s
+    uint32 settingTime = 3; //该设置的时间戳，单位s
+}
+
+ message Properties{
+    bool   power = 1;
+    uint32 brightness = 2;
+    uint32 cct = 3;
+    EnumLightMode lightMode = 4;
+    bool autoColorTemperature = 5;
+    RGB colorRGB = 6;
+    uint32 colorSaturation = 7;
+    //action lightLanguage(ActionInLightLanguage) returns (ActionOutLightLanguage) = 8;
+    bool autoBrightness = 9;
+    reserved 10;
+    FreeControlNightLight freeControlNightLight = 11;
+    repeated ArrayNode sceneCttBrightness = 12;
+    bool colorCttMode = 13;
+    StudyTimeSetting studyTimeSetting = 14;
+    uint32 appointmentPowerOn = 15;
+    uint32 appointmentPowerOff = 16;
+    bool lightTurnOffDelayEnabled = 17;
+    LightStudyMode lightStudyMode = 18;
+ }

@@ -1,0 +1,51 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file devPeriodicTimer.proto
+ * @brief devPeriodicTimer service proto
+ * @version 0.3
+ * @date 2022-8-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+ 
+ package iot.service.devPeriodicTimer;
+option objc_class_prefix = "Iot_Service_DevPeriodicTimer_";
+
+
+ message Config{
+   uint32 siid = 1;
+   repeated uint32 iid = 2;
+   bytes data = 3; //由siid对应的服务模型进行解析
+ }
+
+ message periodicTimer{
+     bool status = 1;
+     string name = 2;
+     uint32 repeat = 3; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+     uint32 hour = 4;
+     uint32 min = 5;
+     uint32 sec = 6;
+     repeated Config config = 7;
+     uint64 settingTime = 8; //unit：s 设置的时间戳，1、单次任务设备可以判断是否过期 2、数组排序可使用
+ }
+
+message ActionInPeriodicTimerExecute {
+    repeated Config config = 1;
+}
+
+message ActionOutPeriodicTimerExecute {
+    enum Code {
+        SUCCESS = 0;
+        FAIL = 1;
+    }
+    Code code = 1;
+}
+
+ message Properties{
+     repeated ArrayNode periodicTimer = 1;
+     // action periodicTimerExecute(ActionInPeriodicTimerExecute) returns (ActionOutPeriodicTimerExecute) = 2; //周期定时执行,云端周期定时调用该方法下行通知设备执行
+ }

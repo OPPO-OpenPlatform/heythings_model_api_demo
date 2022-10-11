@@ -1,0 +1,232 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file washingMachine.proto
+ * @brief washingMachine service proto
+ * @version 0.1
+ * @date 2020-12-14
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ package iot.service.washingMachine;
+option objc_class_prefix = "Iot_Service_WashingMachine_";
+
+ enum WasherRunningStatus{
+   IDLE = 0;
+   WEIGHING = 1;
+   WEIGH_REMINDER = 2;
+   WASH_INFLOW = 3;
+   WASH_HEATING = 4;
+   WASHING = 5;
+   WASH_OUTFLOW = 6;
+   MIDDLE_SPINE = 7;
+   RINSE_INFLOW = 8;
+   RINSING = 9;
+   RINGSE_OUTFLOW = 10;
+   FINAL_SPINE = 11;
+   DRYING = 12;
+   COOLING = 13;
+   END = 14;
+   APPOINTMENT = 15;
+   ERROR = 16; 
+ }
+ 
+ enum WashingMode{
+   STANDARD = 0;
+   COTTON = 1;
+   FAST_WASH = 2;
+   MIXTED_WASH = 3;
+   WOOL = 4;
+   DEHYDRATION = 5;
+   DRY = 6;
+   ECO= 7;
+   DOWNJACKET = 8;
+   MIXTED_WASH2 = 9;
+   WOOL2 =10 ;
+   HOMETEXTILE = 11;
+   SOAK_WASH = 12;
+   SELF_CLEANING = 13;
+ }
+ 
+ enum WaterLevel{
+   LEVLE_AUTO = 0;
+   LEVEL_ONE = 1;
+   LEVEL_TWO = 2;
+   LEVEL_THREE = 3;
+   LEVEL_FOUR = 4;
+   LEVEL_FIVE = 5;
+ }
+ 
+ enum WashCycle{
+   AUTO_CYCLE = 0;
+   ZERO_CYCLE = 1;
+   ONE_CYCLE = 2;
+   TWO_CYCLE = 3;
+   THREE_CYCLE = 4;
+   FOUR_CYCLE = 5;
+ }
+ 
+  enum RinseCycle{
+   RINSE_AUTO = 0;
+   RINSE_ZERO = 1;
+   RINSE_ONE = 2;
+   RINSE_TWO = 3;
+   RINSE_THREE = 4;
+ }
+ enum SpinSpeed{
+   NO_DEHYDRATION = 0;
+   SPEED_ONE = 1;
+   SPEED_TWO = 2;
+   SPEED_THREE = 3;
+ }
+
+ enum OperationMode{
+   STOP = 0;
+   PAUSE = 1;
+   RESUME = 2;
+   CANCEL = 3;
+   START = 4;
+ }
+ 
+ enum RinseWaterLevel{
+   WATERLEVEL_AUTO = 0;
+   WATERLEVEL_ONE = 1;
+   WATERLEVEL_TWO = 2;
+   WATERLEVEL_THREE = 3;
+ }
+ 
+ enum WashStrength{
+   STRENGTH_AUTO = 0;
+   STRENGTH_ONE = 1;
+   STRENGTH_TWO = 2;
+   STRENGTH_THREE = 3;
+ }
+ 
+ enum DewateringStrength{
+   DEWATERING_AUTO = 0;
+   DEWATERING_ONE = 1;
+   DEWATERING_TWO = 2;
+   DEWATERING_THREE = 3;
+ }
+ 
+ enum DetergentLevel{
+   DETERGENT_AUTO = 0;
+   DETERGENT_ONE = 1;
+   DETERGENT_TWO = 2;
+   DETERGENT_THREE = 3;
+ }
+ 
+ enum SoftenerLevel{
+   SOFTENER_AUTO = 0;
+   SOFTENER_ONE = 1;
+   SOFTENER_TWO = 2;
+   SOFTENER_THREE = 3;
+ }
+ 
+ enum SoakWaterLevel{
+   SOAK_AUTO = 0;
+   SOAK_ONE = 1;
+   SOAK_TWO = 2;
+   SOAK_THREE = 3;
+ }
+ 
+ enum DryLevel{
+   DRY_NONE = 0;
+   DRY_STANDARD = 1;
+   DRY_SUPER = 2;
+   DRY_AIR = 3;
+ }
+ 
+  enum StainWash{
+   STAIN_CLOSE= 0;
+   STAIN_NORMAL = 1;
+   STAIN_GRASS = 2;
+   STAIN_MUD = 3;
+   STAIN_LIPSTICK = 4;
+   STAIN_COFFEE = 5;
+   STAIN_LIQUOR = 6;
+ }
+ 
+ message ActionInSelfCleaning{
+ 
+ }
+ 
+ message ActionOutSelfCleaning{
+ 
+ }
+ 
+ message EventCleanReminder{
+ 
+ }
+ 
+ message EventAddDetergentReminder{
+ 
+ }
+ 
+ message EventAddSoftenerReminder{
+ 
+ }
+ 
+ message EventInflowError{
+ 
+ }
+ 
+ message AppointmentTime{
+   bool status = 1;
+   string name = 2;
+   uint32 hour = 3;
+   uint32 min = 4;
+   uint32 sec = 5;
+ }
+
+ message Properties{
+   bool  power = 1;
+   WasherRunningStatus washerRunningStatus = 2;
+   WashingMode washingMode = 3;
+   WaterLevel waterLevel = 4;
+   WashCycle washCycle = 5;
+   uint32 operationTime = 6;
+   uint32 targetTemperature = 7;
+   SpinSpeed spinSpeed = 8;
+   uint32 spinTime = 9;
+   OperationMode operationMode = 10;
+   // action selfCleaning(ActionInSelfCleaning) returns (ActionOutSelfCleaning) = 11;
+   // event cleanReminder(EventCleanReminder) = 12;
+   // event addDetergentReminder(EventAddDetergentReminder) = 13;
+   // event addSoftenerReminder(EventAddSoftenerReminder) = 14;
+   // event inflowError(EventInflowError) = 15;
+   bool childLockEnabled = 16;
+   RinseWaterLevel rinseWaterLevel = 17;
+   WashStrength washStrength = 18;
+   DewateringStrength dewateringStrength = 19;
+   DetergentLevel detergentLevel = 20;
+   SoftenerLevel softenerLevel = 21;
+   bool autoWeightingEnabled = 22;
+   SoakWaterLevel soakWaterLevel = 23;
+   uint32 soakTime = 24;
+   uint32 remainTime = 25;
+   bool airDry = 26;
+   bool keepWater = 27;
+   bool fcsEnabled = 28;
+   bool intenseWashEnabled = 29;
+   bool offcenterWashEnabled = 30;
+   bool cleanNotification = 31;
+   uint32 waterConsumption = 32;
+   uint32 powerConsumption = 33;
+   DryLevel dryLevel = 34;
+   bool easyIroningEnabled = 35;
+   bool washAtNight = 36;
+   bool speedyWash = 37;
+   bool sprayWash = 38;
+   bool steamWash = 39;
+   bool smartRinse = 40;
+   bool cleanRinse = 41;
+   StainWash stainWash = 42;
+   bool disinfectant = 43;
+   RinseCycle rinseCycle = 44;
+   AppointmentTime appointmentTaskCompleted = 45;
+   uint32 appointmentRemainTime = 46;
+   AppointmentTime appointmentTaskStart = 47;
+ }

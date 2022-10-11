@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file fan.proto
+ * @brief fan service proto
+ * @version 0.7
+ * @date 2021-1-26
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.fan;
+option objc_class_prefix = "Iot_Service_Fan_";
+ 
+enum FanMode {
+  FAN_NORMAL = 0;
+  FAN_NATURAL = 1;
+  FAN_SLEEP = 2;
+  FAN_COMFORTABLE = 3;
+  FAN_HUMAN_FEELING = 4;
+  FAN_QUIET = 5;
+  FAN_BABY = 6;
+}
+
+enum HorizontalDirection {
+  HL_STOP = 0;
+  HL_LEFTRIGHT = 1;
+  HL_AUTO = 2;
+  HL_ONE = 3;
+  HL_TWO = 4;
+  HL_THREE = 5;
+  HL_FOUR = 6;
+  HL_FIVE = 7;
+  HL_SIX = 8;
+}
+
+enum VerticalDirection {
+  VL_STOP = 0;
+  VL_UPDOWN = 1;
+  VL_AUTO = 2;
+  VL_ONE = 3;
+  VL_TWO = 4;
+  VL_THREE = 5;
+  VL_FOUR = 6;
+  VL_FIVE = 7;
+  VL_SIX = 8;
+}
+
+enum SwingDirection{
+   AUTO = 0;
+   E_DIRECTION = 1;  //8字摇头
+   W_DIRECTION = 2;  //W字摇头
+   LR_DIRECTION = 3; //左右摇头
+   UD_DIRECTION = 4; //上下摇头
+   LRUD_DIRECTION = 5; //上下左右摇头
+}
+enum SwingAngle{
+   NONE = 0;  //不设定该值
+   ANGLE1 = 1;
+   ANGLE2 = 2;
+}
+
+ message Properties{
+   bool power = 1;
+   FanMode fanMode = 2;
+   uint32 windSpeed = 3;
+   HorizontalDirection horizontalDirection = 4;
+   VerticalDirection verticalDirection = 5;
+   SwingDirection swingDirection = 6;
+   bool childLockEnabled = 7;
+   bool preventStraightWind = 8;
+   bool childPreventColdWind = 9;
+   bool upSwingWind = 10;
+   bool downSwingWind = 11;
+   bool upNoSenseWind = 12;
+   bool downNoSenseWind = 13;
+   bool noSenseWind = 14;
+   bool tempWindEnabled = 15;
+   bool screenDisplayEnabled = 16;
+   uint32 appointmentPowerOn = 17;
+   bool mute = 18;
+   bool autoWindEnabled = 19;
+   bool powerStatus = 20;
+   SwingAngle swingAngle = 21;
+   bool swingEnabled = 22;
+   bool lrDiySwingEnabled = 23;
+   uint32 lrDiyUpPercent = 24;
+   uint32 lrDiyDownPercent = 25;
+   bool udDiySwingEnabled = 26;
+   uint32 udDiyUpPercent = 27;
+   uint32 udDiyDownPercent = 28;
+   bool airDry = 29;
+   bool anionEnabled = 30;
+   bool waterionsEnabled = 31;
+   uint32 appointmentPowerOff = 32;
+ }
+
+

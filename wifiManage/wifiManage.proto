@@ -1,0 +1,47 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file wifiManage.proto
+ * @brief wifiManage service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.wifiManage;
+option objc_class_prefix = "Iot_Service_WifiManage_";
+ 
+ message WifiAutoChange{
+    string ssid = 1;
+    bool status = 2;
+ }
+
+ message AutoChangeConfiguration{
+    string ssid = 1;
+    string password = 2;
+ }
+
+ message ActionInGetSsidList{
+
+ }
+
+ message ActionOutGetSsidList{
+   message SsidInfo{
+      string ssid = 1;
+      int32 rssi = 2;
+   }
+
+   repeated SsidInfo ssidInfo = 1;
+ }
+
+ message Properties{
+   bool wifiAutoChangeEnable = 1;
+   repeated ArrayNode wifiAutoChange = 2;
+   repeated ArrayNode autoChangeConfiguration = 3;
+   // action getSsidList(ActionInGetSsidList) returns (ActionOutGetSsidList) = 4;
+ }
+

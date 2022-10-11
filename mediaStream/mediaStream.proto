@@ -1,0 +1,99 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file mediaStream.proto
+ * @brief mediaStream service proto
+ * @version 0.5
+ * @date 2022-07-29
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.mediaStream;
+option objc_class_prefix = "Iot_Service_MediaStream_";
+ 
+ enum TransmitResolution{
+    AUTO = 0;
+    R360P = 1;
+    R720P = 2;
+    R1080P = 3; //2K
+    R1280P = 4;
+    R1296P = 5;
+    R480P = 6;
+    R1440P = 7; //2.5K
+ }
+
+ message ActionInStartMediaStream{
+    message Live{
+       TransmitResolution transmitResolution = 1;
+       uint32 mediaStreamMode = 2;
+    }
+
+    message MediaFile{
+       uint32 mediaStreamMode = 1;
+       int32 playSpeed = 2; // 0:正常速度 正数：倍速播放  负数：慢动作播放
+       uint32 timeOffset = 3;  //单位 秒
+       string url = 4; //文件url
+   }
+   
+     message StreamFile{
+       uint32 mediaStreamMode = 1;
+       int32 playSpeed = 2; // 0:正常速度 正数：倍速播放  负数：慢动作播放
+       uint64 startTimeStamp = 3; 
+       uint64 endTimeStamp = 4; 
+   }
+
+    oneof message{
+       Live live = 1;  //实时流
+       MediaFile mediaFile = 2; //播放媒体文件
+       StreamFile streamfile = 3; //播放回放媒体流文件
+    }
+ }
+
+ message ActionOutStartMediaStream{
+    enum ResultCode{
+       RESULT_OK = 0;
+       RESULT_NOSOURCE = 1; //无视频文件
+       RESULT_DISKREMOVED = 2; //磁盘已删除
+    }
+    uint32 mediaStreamMode = 1;
+    ResultCode resultCode = 2;
+ }
+
+message ActionInStopMediaStream {
+}
+
+message ActionOutStopMediaStream {
+}
+
+message ActionInSetTransmitResolution {
+    TransmitResolution resolution = 1;
+}
+
+message ActionOutSetTransmitResolution {
+}
+
+message ActionInSetMediaStreamMode {
+    //bit0:send audio
+    //bit1:send video
+    //bit2:recvive audio
+    //bit3:recvive video
+    uint32 mediaStreamMode = 1;
+}
+
+message ActionOutSetMediaStreamMode {
+}
+
+message Properties {
+    TransmitResolution transmitResolution = 1;
+    //bit0:send audio
+    //bit1:send video
+    //bit2:recvive audio
+    //bit3:recvive video
+    uint32 mediaStreamMode = 2;
+    // action startMediaStream(ActionInStartMediaStream) returns (ActionOutStartMediaStream) = 3;
+    // action stopMediaStream(ActionInStopMediaStream) returns (ActionOutStopMediaStream) = 4;
+    // action setTransmitResolution(ActionInSetTransmitResolution) returns (ActionOutSetTransmitResolution) = 5;
+    // action setMediaStreamMode(ActionInSetMediaStreamMode) returns (ActionOutSetMediaStreamMode) = 6;
+}

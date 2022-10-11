@@ -1,0 +1,138 @@
+/**
+ * Copyright (c) 2008-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file toothbrush.proto
+ * @brief toothbrush service proto
+ * @version 0.1
+ * @date 2022-2-21
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+package iot.service.toothbrush;
+option objc_class_prefix = "Iot_Service_Toothbrush_";
+
+message ActionInToothbrushHeadReset {
+}
+
+message ActionOutToothbrushHeadReset {
+}
+
+enum ToothbrushForce {
+    LEVEL_ONE = 0; //1级
+    LEVEL_TWO = 1; //2级
+    LEVEL_THREE = 2; //3级
+    LEVEL_FOUR = 3; //4级
+}
+
+enum ToothbrushModePersional {
+    NONE = 0;
+    STRONG_STAIN_REMOVAL = 0x0010; //强力去渍
+    SENSITIVE_CARE = 0x0011; //敏感呵护
+    TOOTH_STAIN_CLEANING = 0x0012; //牙渍清洁
+    QUICK_WHITENING = 0x0013; //急速净白
+    TOOTH_POLISHING = 0x0014; //牙面抛光
+    RECOMMENDED_FOR_BEGINNERS = 0x0020; //新手推荐
+    GOOD_MORNING_HEALTHY_TEETH = 0x0021; //早安健齿
+    GOOD_NIGHT_CLEANING = 0x0022; //晚安清洁
+    FRESH_BREATH = 0x0023; //焕新口气
+    SICK_TOOTH_CARE = 0x0024; //病牙呵护
+    PROTECT_TEETH_FOR_CHILD = 0x0030; //儿童护齿
+    PREGNANCY_CLEANING = 0x0031; //孕期清洁
+    TOOTH_DECAY_PROTECTION = 0x0032; //蛀牙防护
+    BRACES_CARE = 0x0033; //牙套护理
+    DENTURE_CLEANING = 0x0034; //假牙清洗
+    GUM_MASSAGE = 0x0040; //牙龈按摩
+    PERIODONTAL_CARE = 0x0041; //牙周护理
+    INTERDENTAL_RINSE = 0x0042; //牙缝冲洗
+    TONGUE_CLEANING = 0x0043; //舌苔清洁
+    FREQUENCY_CONVERSION_MASSAGE = 0x0044; //变频按摩
+}
+
+enum AreaType {
+    LOWER_LEFT_AREA = 0; //左下区
+    LOWER_MIDDLE_AREA = 1; //中下区
+    LOWER_RIGHT_AREA = 2; //右下区
+    UPPER_RIGHT_AREA = 3; //右上区
+    UPPER_MIDDLE_AREA = 4; //中上区
+    UPPER_LEFT_AREA = 5; //左上区
+}
+
+enum JobStatus {
+    STANDBY_STATUS = 0;
+    PREACTIVE_STATUS = 1;
+    WORK_STATUS = 2;
+    PAUSE_STATUS = 3;
+    CANCEL_STATUS = 4;
+    COMPLETE_STATUS = 5;
+}
+
+enum SideType {
+    MEDIAL = 0; //内侧
+    OCCLUSAL_SURFACE = 1; //咬合面
+    OUTSIDE = 2; //外侧
+}
+
+message BrushingMonitoring {
+    bool touch = 1; //是否有接触
+    AreaType areaType = 2; //牙区
+    SideType sideType = 3; //牙面
+    uint32 duration = 4; //该面的刷牙时长
+    uint32 largeShakeTimes = 5; //该面的大幅度次数
+}
+
+message ActionInGetThreeAxisOfflineBrushingDetails {
+    uint64 beginTime = 1; // unix time, unit:s
+}
+
+message ActionOutGetThreeAxisOfflineBrushingDetails{
+    message Data {
+        uint32 score = 1; //打分 （0～100）
+        uint64 utc = 2; //unix 时间戳，结合时区计算日期
+        uint32 totalDuration = 3; //实际刷牙时长
+        uint32 cleaningRate = 4; //清洁率
+        uint32 errorDuration = 5; //错误时长， 单位秒
+        uint32 largeShakeTimes = 6; //大幅度次数
+    }
+    repeated Data data = 1;
+}
+
+message ActionInGetOnlineBrushingDetails {
+    uint64 beginTime = 1; // unix time, unit:s
+}
+
+message ActionOutGetOnlineBrushingDetails {
+    message Details {
+        AreaType areaType = 1; //牙区
+        SideType sideType = 2; //牙面
+        uint32 duration = 3; //该面的刷牙时长
+        uint32 largeShakeTimes = 4; //该面大幅度次数
+    }
+    message Data {
+        uint32 score = 1; //打分 （0～100）
+        uint64 utc = 2; //unix 时间戳，结合时区计算日期
+        uint32 totalDuration = 3; //实际刷牙时长
+        repeated Details details = 4;
+    }
+
+    repeated Data data = 1;
+}
+
+message Properties {
+    uint32 toothbrushHeadLeftTimes = 1; //牙刷头剩余次数
+    // action toothbrushHeadReset(ActionInToothbrushHeadReset) returns(ActionOutToothbrushHeadReset) = 2; //牙刷头使用寿命重置
+    ToothbrushForce toothbrushCleanModeLevel = 3; //牙刷清洁模式刷力等级
+    ToothbrushForce toothbrushWhiteningModeLevel = 4; //牙刷亮白模式刷力等级
+    ToothbrushForce toothbrushSensitiveModeLevel = 5; //牙刷敏感模式刷力等级
+    ToothbrushForce toothbrushCareModeLevel = 6; //牙刷护理模式刷力等级
+    ToothbrushModePersional toothbrushModePersional = 7; //牙刷个性化模式
+    uint32 setBrushingDuration = 8; //设置刷牙时长, unit:s
+    AreaType setBrushingStartPosition = 9; //刷牙起始位置设置
+    JobStatus toothbrushJobStatus = 10; //牙刷工作状态
+    BrushingMonitoring brushingMonitoring = 11; //刷牙监测
+    bool antiSplashEnabled = 12; //防飞溅开关
+    bool haveBrushingRecordList = 13;
+    // action getThreeAxisOfflineBrushingDetails(ActionInGetThreeAxisOfflineBrushingDetails) returns(stream ActionOutGetThreeAxisOfflineBrushingDetails) = 14; //获取3轴离线刷牙详情，由被动端发起正常结束事务
+    // action getOnlineBrushingDetails(ActionInGetOnlineBrushingDetails) returns(ActionOutGetOnlineBrushingDetails) = 15; //获取在线刷牙详情
+}

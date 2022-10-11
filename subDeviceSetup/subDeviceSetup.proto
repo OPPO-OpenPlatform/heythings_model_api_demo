@@ -1,0 +1,41 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file subDeviceSetup.proto
+ * @brief subDeviceSetup service proto
+ * @version 0.1
+ * @date 2020-7-7
+ * @author Frank
+ */
+
+syntax = "proto3";
+
+package iot.service.subDeviceSetup;
+option objc_class_prefix = "Iot_Service_SubDeviceSetup_";
+
+message ActionInSubDeviceSetup{
+    uint32 devAddress = 1;
+    uint64 domainId = 2;
+    bytes domainCert = 3;
+    bytes domainKeyPub = 4;
+
+    // domainDevBeaconKey=HKDF_SHA256(key=domainBeaconKey,salt=NULL,info=devHomeAddress)
+    bytes domainDevBeaconKey = 5;
+
+    // domainDevBeaconIv=HKDF_SHA256(key=domainBeaconIv,salt=NULL,info=devHomeAddress)
+    bytes domainDevBeaconIv = 6;
+}
+
+message ActionOutSubDeviceSetup{
+    enum Code{
+        Success = 0;
+    }
+
+    Code code = 1;
+}
+
+message Properties{
+  // action subDeviceSetup(ActionInSubDeviceSetup) returns (ActionOutSubDeviceSetup) = 1;
+}
+
+

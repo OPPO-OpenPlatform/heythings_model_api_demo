@@ -1,0 +1,95 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file steamOven.proto
+ * @brief steamOven service proto
+ * @version 0.1
+ * @date 2020-12-15
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ package iot.service.steamOven;
+option objc_class_prefix = "Iot_Service_SteamOven_";
+  
+ enum OperationMode{
+   STOP = 0;
+   PAUSE = 1;
+   RESUME = 2;
+   CANCEL = 3;
+   START = 4;
+ }
+ 
+ enum MachineStatus{
+   IDLE = 0;
+   PREACTIVE = 1;
+   ACTIVE = 2;
+   STOPED = 3;
+   ERROR = 4;
+ }
+ 
+ enum OvenMode{
+   MANUAL = 0;
+   MEAT_VEGETABLE = 1;
+   BAKE = 2;
+   PIZZA = 3;
+   ROTATION = 4;
+   AIR_DRY = 5;
+   FERMENTATION = 6;
+   HOT_WIND = 7;
+   AIR_FRY = 8;
+   UNFREEZE = 9;
+ }
+ 
+ enum PreheatStatus{
+   PREHEAT_NONE = 0;
+   PREHEATING = 1;
+   PREHEAT_END = 2;
+ }
+ 
+ enum OvenWorkMode{
+   STEAM = 0;
+   ROAST = 1;
+ }
+ 
+ enum JobStatus{
+   STANDBY_STATUS = 0;
+   PREACTIVE_STATUS = 1;
+   WORK_STATUS = 2;
+   PAUSE_STATUS = 3;
+   CANCEL_STATUS = 4;
+   COMPLETE_STATUS = 5;
+ }
+ 
+ message AppointmentTaskCompleted{
+   bool status = 1;
+   string name = 2;
+   uint32 hour = 3;
+   uint32 min = 4;
+   uint32 sec = 5;
+ }
+ 
+ message EventOpenAlarm{
+ 
+ }
+ 
+ message Properties{
+   bool power = 1;
+   OperationMode operationMode = 2;
+   uint32 operationTime = 3;
+   int32 currentTemperature = 4;
+   int32 targetTemperature = 5;
+   OvenMode ovenMode = 6;
+   bool preheatEnabled = 7;
+   PreheatStatus preheatStatus = 8;
+   OvenWorkMode ovenWorkMode = 9;
+   AppointmentTaskCompleted appointmentTaskCompleted = 10;
+   JobStatus jobStatus = 11;
+   uint32 remainTime = 12;
+   MachineStatus machineStatus = 13;
+   // event openAlarm(EventOpenAlarm) = 14;
+   
+ }
+
+

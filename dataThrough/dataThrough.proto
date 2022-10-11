@@ -1,0 +1,47 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file dataThrough.proto
+ * @brief dataThrough service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.dataThrough;
+option objc_class_prefix = "Iot_Service_DataThrough_";
+ 
+ message ActionInDataThrough{
+  message ReturnMsg{
+    bytes data = 1;     //应答的数据
+    uint32 code = 2;    //0-接收成功
+  }
+
+  oneof message{
+    bytes sendData = 1;       //发送的数据
+    ReturnMsg returnData = 2; //应答的数据
+  }
+}
+
+message ActionOutDataThrough{
+  message ReturnMsg{
+    bytes data = 1;     //应答的数据
+    uint32 code = 2;    //0-接收成功
+  }
+
+  oneof message{
+    bytes sendData = 1;       //发送的数据
+    ReturnMsg returnData = 2; //应答的数据
+  }
+}
+
+message EventBeaconThrough{
+  bytes beaconData = 1;       //发送的数据
+}
+
+message Properties{
+  //action dataThrough(stream ActionInDataThrough) returns (stream ActionOutDataThrough) = 1;  //由主动端发起正常结束事务
+  //event beaconThrough(EventBeaconThrough) = 2;
+}

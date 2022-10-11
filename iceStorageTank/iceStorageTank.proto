@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file iceStorageTank.proto
+ * @brief iceStorageTank service proto
+ * @version 0.1
+ * @date 2020-8-10
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.iceStorageTank;
+option objc_class_prefix = "Iot_Service_IceStorageTank_";
+ 
+ message Properties{
+   bool power = 1;
+   uint32 iceStorageRate = 2;
+   uint32 iceThickness = 3;
+   uint32 iceStorageCapacity = 4;
+   uint32 supplyWaterTemp = 5;
+   uint32 currentTemperature = 6;
+   uint32 targetTemperature = 7;
+   uint32 currentPres1 = 8;
+
+ }

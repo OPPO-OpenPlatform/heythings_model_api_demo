@@ -1,0 +1,81 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file cloudSubDeviceBind.proto
+ * @brief cloud SubDevice Bind service proto
+ * @version 0.1
+ * @date 2020-7-7
+ * @author Frank
+ */
+
+syntax = "proto3";
+
+package iot.service.cloudSubDeviceBind;
+option objc_class_prefix = "Iot_Service_CloudSubDeviceBind_";
+
+message ActionInSubDeviceBind{
+  bytes bindKey = 1;  //当此字段为空时子设备绑定的用户和家庭与网关一致
+  string pid = 2;
+  string vendorDevId = 3;  //一型一密设备唯一标识，such as mac or sn，需提前上传到HeyThings平台，平台需验证其是否已录入及与pid是否匹配
+  bytes devPubKey = 4;     //设备公钥，用于上传云端进行域签名，以及用来验证设备的唯一性（非首次绑定时需要验证其与vendorDevId或did对应的首次绑定时的devPubKey是否一致，若不一致拒绝绑定），设备首次生成后永久保存不再更改
+  string did = 5;  //一机一密设备唯一标识，HeyThings平台生成并预置到设备中，平台需验证其是否已存在及与pid是否匹配
+}
+
+message ActionOutSubDeviceBind{
+  uint32 devAddress = 1;
+  bytes domainCert = 2;
+}
+
+message ActionInBleSubDeviceBind{
+  bytes bindKey = 1;  //当此字段为空时子设备绑定的用户和家庭与网关一致
+  string pid = 2;
+  string vendorDevId = 3;  //一型一密设备唯一标识，such as mac or sn，需提前上传到HeyThings平台，平台需验证其是否已录入及与pid是否匹配
+  bytes devPubKey = 4;     //设备公钥，用于上传云端进行域签名，以及用来验证设备的唯一性（非首次绑定时需要验证其与vendorDevId或did对应的首次绑定时的devPubKey是否一致，若不一致拒绝绑定），设备首次生成后永久保存不再更改
+  string did = 5;  //一机一密设备唯一标识，HeyThings平台生成并预置到设备中，平台需验证其是否已存在及与pid是否匹配
+}
+
+message ActionOutBleSubDeviceBind{
+  uint32 devAddress = 1;   //地址高两字节固定为0x0102
+  bytes domainCert = 2;
+}
+
+message ActionInBleMeshSubDeviceBind{
+  bytes bindKey = 1;
+  string uuid = 2;
+  uint32 devAddress = 3;   //地址高两字节固定为0x0101
+}
+
+message ActionOutBleMeshSubDeviceBind{
+
+}
+
+message ActionInBleMeshGetOob{
+  string uuid = 1;
+}
+
+message ActionOutBleMeshGetOob{
+  bytes oob = 1;
+}
+
+message ActionInBleSubDeviceGetSetupType{
+  string pid = 1;
+}
+
+message ActionOutBleSubDeviceGetSetupType{
+  enum SetupType{
+    ECDH = 0;
+    ECJPAKE = 1;
+  }
+
+  SetupType type = 1;
+  bytes ecdhPubKey = 2;
+}
+
+message Properties{
+  // action subDeviceBind(ActionInSubDeviceBind) returns (ActionOutSubDeviceBind) = 1;
+  // action bleSubDeviceBind(ActionInBleSubDeviceBind) returns (ActionOutBleSubDeviceBind) = 2;
+  // action bleMeshSubDeviceBind(ActionInBleMeshSubDeviceBind) returns (ActionOutBleMeshSubDeviceBind) = 3;
+  // action bleSubDeviceGetSetupType(ActionInBleSubDeviceGetSetupType) returns (ActionOutBleSubDeviceGetSetupType) = 4;
+  // action bleMeshGetOob(ActionInBleMeshGetOob) returns (ActionOutBleMeshGetOob) = 5;
+}
+

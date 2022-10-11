@@ -1,0 +1,272 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file router.proto
+ * @brief router service proto
+ * @version 0.2
+ * @date 2020-9-14
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.router;
+option objc_class_prefix = "Iot_Service_Router_";
+ 
+ message EthwanInfo{
+   enum LinkStatus{
+     UNCONNECTED = 0;
+     CONNECTING = 1;
+     CONNECTED = 2;
+  }
+   LinkStatus linkStatus = 1;
+   uint32 uploadRate = 2;
+   uint32 downloadRate = 3;
+ }
+
+
+ enum ConnectMode{
+   ONLY_LAN = 0;
+   DYNAMIC_IP = 1;
+   PPPOE = 2;
+   STATIC_IP = 3;
+ }
+
+ message ReserveIP{
+   string deviceName = 1;
+   string MAC = 2;
+   string IP =3;
+ }
+
+ message StaticRoute{
+   string destIP = 1;
+   string subnetMask = 2;
+   string defaultGateway =3;
+ }
+
+ enum SercurityMode{
+   NO_ENCRYPTION = 0;
+   WPA_WPA2_PSK = 1;
+   WPA2_PSK = 2;
+   WPA3_SAE = 3;
+   WEP = 4;
+   WPA_PSK = 5;
+   WPA3_MIXED = 6;
+ }
+
+ enum TransmitPower{
+   STD = 0;
+   STRONG = 1;
+ }
+
+ enum FilterType{
+   ALLOW = 0;
+   FORBID = 1;
+ }
+
+ message WlanFilter{
+    string deviceName = 1;
+    string MAC = 2;
+ }
+
+ message Client{
+   enum ConnectType{
+      WIRED = 0;
+      WIRELESS = 1;
+   }
+
+   bool isOnline = 1;
+   ConnectType connectType = 2;
+   string clientName = 3;
+   string MAC = 4;
+   string IPv4 = 5;
+   string IPv6 = 6;
+   uint32 dhcpRemainDay = 7;
+   uint32 dhcpRemainHour = 8;
+   uint32 dhcpRemainMinute = 9;
+   uint32 allowInternet = 10;
+ }
+
+ message ActionInModifyWebPassword{
+   string oldPassword = 1;
+   string newPassword = 2;
+ }
+
+ message ActionOutModifyWebPassword{
+
+ }
+
+ message ActionInDeviceReboot{
+
+ }
+
+ message ActionOutDeviceReboot{
+
+ }
+
+ message ActionInDeviceRestore{
+
+ }
+
+ message ActionOutDeviceRestore{
+
+ }
+
+ message MacFilter{
+    string clientName = 1;
+    string MAC = 2;
+ }
+ 
+ message IpFilter{
+  enum Protocal{
+    ALL_PROTOCAL = 0;
+    TCP_PROTOCAL = 1;
+    UDP_PROTOCAL = 2;
+    TCP_UDP_PROTOCAL = 3;
+    ICMP_PROTOCAL = 4;
+  }
+
+  string wanIP = 1;
+  Protocal protocal = 2;
+  uint32 wanStartPort = 3;
+  uint32 wanEndPort = 4;
+  string clientName = 5;
+  string lanIP = 6;
+  uint32 lanStartPort = 7;
+  uint32 lanEndPort = 8;
+ }
+
+ message DomainFilter{
+   string domain = 1;
+ }
+
+ message VirtualServer{
+  enum Protocal{
+    ALL_PROTO = 0;
+    TCP_PROTO = 1;
+    UDP_PROTO = 2;
+  }
+
+  string name = 1;
+  Protocal protocal = 2;
+  uint32 wanStartPort = 3;
+  uint32 wanEndPort = 4;
+  string lanIP = 5;
+  uint32 lanStartPort = 6;
+  uint32 lanEndPort = 7;
+ }
+
+ message UsbShareAccount{
+  string account = 1;
+  string password = 2;
+ }
+ 
+ enum WifiQuality{
+    FIRST_LEVEL = 0; //最优
+    SECOND_LEVEL = 1;
+    THIRD_LEVEL = 2;
+    FOURTH_LEVEL =3;
+ }
+
+ enum WifiMode{
+    NOMAL_MODE = 0;
+    ENHANCED_MODE = 1;
+ }
+ 
+ message ActionInWifiChannelOptimization{
+
+ }
+ 
+ message ActionOutWifiChannelOptimization{
+
+ }
+ 
+ message Properties{
+   EthwanInfo ethwanInfo = 1;
+   string ethwanMAC = 2;
+   string ethwanIP = 3;
+   string ethwanSubnet = 4;
+   string ethwanGateway = 5;
+   string ethwanPrimaryDNS = 6;
+   string ethwanSecondaryDNS = 7;
+   uint32 onlineClientNo = 8;
+   ConnectMode connectMode = 9;
+   string pppoeAccount = 10;
+   string pppoePassword = 11;
+   uint32 pppoeMTU = 12;
+   bool dynamicManualDnsEnabled = 13;
+   string dynamicManualPrimaryDNS = 14;
+   string dynamicManualSecondaryDNS = 15;
+   uint32 dynamicMTU = 16;
+   string staticIP = 17;
+   string staticSubnet = 18;
+   string staticGateway = 19;
+   string staticPrimaryDNS = 20;
+   string staticSecondaryDNS = 21;
+   uint32 staticMTU = 22;
+   string lanIP = 23;
+   string lanSubnet = 24;
+   bool dhcpEnabled = 25;
+   string dhcpStartIP = 26;
+   string dhcpEndIP = 27;
+   bool dhcpManualDNSEnabled = 28;
+   string dhcpManualDNSPrimary = 29;
+   string dhcpManualDNSSecondary = 30;
+   uint32 dhcpLeaseTime = 31;
+   repeated ArrayNode reserveIP = 32;
+   repeated ArrayNode staticRoute = 33;
+   bool wlanEnabled2p4g = 34;
+   string ssid2p4g = 35;
+   bool hideSsidEnabled2p4g = 36;
+   SercurityMode sercurityMode2p4g = 37;
+   string password2p4g = 38;
+   TransmitPower transmitPower2p4g = 39;
+   bool wlanEnabled5g = 40;
+   string ssid5g = 41;
+   bool hideSsidEnabled5g = 42;
+   SercurityMode sercurityMode5g = 43;
+   string password5g = 44;
+   TransmitPower transmitPower5g = 45;
+   bool priorityEnabled5g = 46;
+   string combinedSSID = 47;
+   SercurityMode combinedSercurityMode = 48;
+   string combinedPassword = 49;
+   bool hideCombinedEnabled = 50;
+   bool guestWlanEnabled = 51;
+   string guestWlanSSID = 52;
+   uint32 guestWlanTime = 53;
+   SercurityMode guestWlanSercurityMode = 54;
+   string guestWlanPassword = 55;
+   bool guestWlanBroadcastEnabled = 56;
+   bool wlanFilterEnabled = 57;
+   FilterType wlanFilterType = 58;
+   repeated ArrayNode wlanFilter = 59;
+   bool wpsEnabled = 60;
+   repeated ArrayNode client = 61;
+   string webPassword = 62;
+   // action modifyWebPassword(ActionInModifyWebPassword) returns (ActionOutModifyWebPassword) = 63;
+   // action deviceReboot(ActionInDeviceReboot) returns (ActionOutDeviceReboot) = 64;
+   // action deviceRestore(ActionInDeviceRestore) returns (ActionOutDeviceRestore) = 65;
+   bool firewallEnabled = 66;
+   bool macFilterEnabled = 67;
+   FilterType macFilterType = 68;
+   repeated ArrayNode macFilter = 69;
+   bool ipFilterEnabled = 70;
+   FilterType ipFilterType = 71;
+   repeated ArrayNode ipFilter = 72;
+   bool domainFilterEnabled = 73;
+   repeated ArrayNode domainFilter = 74;
+   bool dmzEnabled = 75;
+   string dmzIP = 76;
+   repeated ArrayNode virtualServer = 77;
+   bool upnpEnabled = 78;
+   bool usbShareEnabled = 79;
+   UsbShareAccount usbShareAccount = 80;
+   bool priorityWifiEnabled5g = 81;
+   WifiQuality wifiQuality = 82;
+   WifiMode wifiMode = 83;
+   bool indicatorLightEnabled = 84;
+   // action wifiChannelOptimization(ActionInWifiChannelOptimization) returns (ActionOutWifiChannelOptimization) = 85;
+ }

@@ -1,0 +1,258 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file waterHeater.proto
+ * @brief waterHeater service proto
+ * @version 0.1
+ * @date 2020-12-15
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ import "common.proto";
+ 
+ package iot.service.waterHeater;
+option objc_class_prefix = "Iot_Service_WaterHeater_";
+
+ enum MachineStatus{
+   IDLE = 0;
+   PREACTIVE = 1;
+   ACTIVE = 2;
+   STOPED = 3;
+   ERROR = 4;
+ }
+ 
+ enum HeaterStatus{
+   STATUS_HEATING = 0;
+   STATUS_PRESERVE = 1;
+   STATUS_IDLE = 2;
+   STATUS_APPOINTMENT = 3;
+ }
+ 
+ enum HeatingMode{
+   MODE_NONE = 0;
+   MODE_HALF = 1;
+   MODE_ONE = 2;
+   MODE_EXTEND = 3;
+ }
+ 
+ enum WaterHeaterMode{
+   MODE_AUTO = 0;
+   MODE_SUMMER = 1;
+   MODE_WINTER = 2;
+   MODE_SPRINGFALL = 3;
+ }
+ 
+ enum WaterHeaterScene{
+   SCENE_MANUAL = 0;
+   SCENE_LIFE = 1;
+   SCENE_SHOWER = 2;
+   SCENE_BATHTUB = 3;
+   SCENE_CONFORT = 4;
+   SCENE_FAST = 5;
+   SCENE_ONEPERSON = 6;
+   SCENE_TWOPERSON = 7;
+   SCENE_THREEPERSON = 8;
+   SCENE_ELDERLY = 9;
+   SCENE_ADULT = 10;
+   SCENE_KID = 11;
+   SCENE_KITCHEN = 12;
+ }
+ 
+ enum HeatingPower{
+   POWER_NONE = 0;
+   POWER_ONE = 1;
+   POWER_TWO = 2;
+ }
+ 
+ enum FrequencyHotGear{
+   GEAR_NONE = 0;
+   GEAR_ONE = 1;
+   GEAR_TWO = 2;
+ }
+ 
+ enum SterilizationPeriod{
+   PERIOD_NONE = 0;
+   PERIOD_ONE = 1;
+   PERION_TWO = 2;
+   PERION_THREE = 3;
+ }
+ 
+ enum WaterQuality{
+   LEVEL_ONE = 0; //最优
+   LEVEL_TWO = 1;
+   LEVEL_THREE = 2;
+ }
+ 
+ enum MorningNightBath{
+   CLOSE = 0;
+   MORNING = 1;
+   NIGHT = 2;
+   MORNINGANDNIGHT = 3;
+ }
+ 
+ enum BathtubWaterLevel{
+   BATHTUB_NONE = 0;
+   BATHTUB_ONE = 1;
+   BATHTUB_TWO = 2;
+ }
+ 
+ enum BubbleMode{
+   BUBBLE_CLOSE = 0;
+   BUBBLE_OPEN = 1;
+   BUBBLE_HOT = 2;
+   BUBBLE_COLD = 3;
+ }
+ 
+ enum SterilizationMode{
+   STERILIZATION_CLOSE = 0;
+   STERILIZATION_HOT = 1;
+   STERILIZATION_COLD = 2;
+ }
+ 
+ enum DisplayingTempUnit{
+   UNIT_K = 0;
+   UNIT_F = 1;
+   UNIT_C = 2;
+ }
+ 
+ enum GestureType{
+   TYPE_kitchenWash = 0;
+   TYPE_POWER = 1;
+   TYPE_COLDWATERPRESSURE = 2;
+   TYPE_COLDWATER = 3;
+   TYPE_PERSONALMODE = 4;
+ }
+
+ message UserDefineTemp{
+   bool status = 1;
+   uint32 temperature = 2;
+ }
+ 
+ message ActionInWaterQualityReset{
+ 
+ }
+ 
+ message ActionOutWaterQualityReset{
+ 
+ }
+ 
+ message ActionInMgReset{
+ 
+ }
+ 
+ message ActionOutMgReset{
+ 
+ }
+ 
+ message ActionInWaterConsumptionReset{
+
+ }
+
+ message ActionOutWaterConsumptionReset{
+
+ }
+
+ message ActionInDeviceFactoryRestore{
+
+ }
+
+ message ActionOutDeviceFactoryRestore{
+
+ }
+
+ message ColdWaterAppointment{
+   bool enable  = 1;
+   uint32 week = 2;
+   uint32 fromSecond = 3;
+   uint32 fromMin = 4;
+   uint32 fromHour = 5;
+   uint32 toSecond = 6;
+   uint32 toMin = 7;
+   uint32 toHour = 8;
+ }
+ 
+  message ColdWaterPowerAppointment{
+   bool enable  = 1;
+   uint32 week = 2;  //bit0:Mon - bit6:Sun
+   uint32 fromSecond = 3;
+   uint32 fromMin = 4;
+   uint32 fromHour = 5;
+   uint32 toSecond = 6;
+   uint32 toMin = 7;
+   uint32 toHour = 8;
+ }
+ 
+ message Properties{
+   bool power = 1;
+   int32 currentTemperature = 2;
+   int32 targetTemperature = 3;
+   uint32 remainTime = 4;
+   uint32 hotWaterLevel = 5;
+   HeaterStatus heaterStatus = 6;
+   HeatingMode heatingMode = 7;
+   WaterHeaterMode waterHeaterMode = 8;
+   WaterHeaterScene waterHeaterScene = 9;
+   bool sterilizationEnabled = 10;
+   bool eco = 11;
+   bool sleep = 12;
+   uint32 volume = 13;
+   bool childLockEnabled = 14;
+   bool screenDisplayEnabled = 15;
+   uint32 mgUsedPercent = 16;
+   repeated ArrayNode userDefineTemp = 17;
+   HeatingPower heatingPower = 18;
+   bool tPlusHot = 19;
+   bool autoPowerOff = 20;
+   bool alwaysTempDetection = 21;
+   bool sceneModeEnabled = 22;
+   bool waterFlowStatus = 23;
+   bool frequencyHot = 24;
+   FrequencyHotGear frequencyHotGear = 25;
+   SterilizationPeriod sterilizationPeriod = 26;
+   uint32 sterilizationLeftDays = 27;
+   WaterQuality waterQuality = 28;
+   // action waterQualityReset(ActionInWaterQualityReset) returns (ActionOutWaterQualityReset) = 29;
+   // action mgReset(ActionInMgReset) returns (ActionOutMgReset) = 30;
+   uint32 bathRemainingTime = 31;
+   MorningNightBath morningNightBath = 32;
+   BathtubWaterLevel bathtubWaterLevel = 33;
+   uint32 bathtubUp = 34;
+   uint32 inFlowTemp = 35;
+   uint32 waterVolume = 36;
+   bool fireStatus = 37;
+   bool smartChangeLitres = 38;
+   uint32 gasLiftPrecent = 39;
+   bool smartChangeLitresEnabled = 40;
+   bool coldWaterdot = 41;
+   bool coldWater = 42;
+   bool coldWaterMaster = 43;
+   bool coldWaterPressure = 44;
+   bool coldWaterAI = 45;
+   bool coldWaterHighTemp = 46;
+   bool coldWaterConservation = 47;
+   uint32 coldWaterDuration = 48;
+   uint32 coldholdDuration = 49;
+   uint32 coldConservationDuration = 50;
+   // action waterConsumptionReset(ActionInWaterConsumptionReset) returns (ActionOutWaterConsumptionReset) = 51;
+   bool waterConsumptionEnabled = 52;
+   BubbleMode bubbleMode = 53;
+   SterilizationMode sterilizationMode = 54;
+   DisplayingTempUnit displayingTempUnit = 55;
+   // action deviceFactoryRestore(ActionInDeviceFactoryRestore) returns (ActionOutDeviceFactoryRestore) = 56;
+   uint32 fireCapacity = 57;
+   int32 lowTemp = 58;
+   int32 highTemp = 59;
+   uint32 waterConsumption = 60;
+   uint32 realTimePower = 61;
+   uint32 inFlowTDS = 62;
+   bool gestureEnabled = 63;
+   GestureType gestureType = 64;
+   repeated ArrayNode coldWaterAppointment = 65;
+   repeated ArrayNode coldWaterPowerAppointment = 66;
+   bool outflowProtect = 67;
+   bool outflowProtectStatus = 68;
+ }
+
+

@@ -1,0 +1,49 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file electricHeater.proto
+ * @brief electricHeater service proto
+ * @version 0.2
+ * @date 2021-1-14
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ package iot.service.electricHeater;
+option objc_class_prefix = "Iot_Service_ElectricHeater_";
+
+ enum ElectricHeaterMode{
+   NONE = 0;
+   SMART_MODE = 1;
+   ECO_MODE = 2;
+   SLEEP_MODE = 3;
+   ANTIFREEZING = 4;
+   COMFORT_MODE = 5;
+ }
+ 
+ enum ElectricHeaterLevel{
+   LEVEL_NONE = 0;
+   LEVEL_ONE = 1;
+   LEVEL_TWO = 2;
+   LEVEL_THREE = 3;
+   LEVEL_FOUR = 4;
+   LEVEL_FIVE = 5;
+ }
+
+ message Properties{
+   bool  power = 1;
+   uint32 currentTemperature = 2;
+   uint32 targetTemperature = 3;
+   ElectricHeaterMode electricHeaterMode = 4;
+   ElectricHeaterLevel electricHeaterLevel = 5;
+   bool childLockEnabled = 6;
+   bool screenDisplayEnabled = 7;
+   uint32 runningDuration = 8;
+   uint32 powerConsumption = 9;
+   uint32 appointmentPowerOn = 10;
+   bool noControlTempEnabled = 11;
+   uint32 appointmentPowerOff = 12;
+ }
+
+

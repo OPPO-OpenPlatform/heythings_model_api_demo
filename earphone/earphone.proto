@@ -1,0 +1,47 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file earphone.proto
+ * @brief earphone service proto
+ * @version 1.0
+ * @date 2022-3-8
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.earphone;
+option objc_class_prefix = "Iot_Service_Earphone_";
+ 
+ enum SmartNoiseCancellingMode {
+   OFF = 0;          //关闭
+   TRANSPARENCY = 1; //通透
+   STRONG = 2;       //强降噪
+   WEAK = 3;         //弱降噪
+   SMART = 4;        //智能降噪
+ }
+ 
+ enum EarphoneWearStatus {
+   BOTH_NO = 0;      //都未在耳
+   LEFT_WEAR = 1;    //仅左耳在耳
+   RIGHT_WEAR = 2;   //仅右耳在耳 
+   BOTH_WEAR = 3;    //都在耳
+ }
+ 
+ enum EarphoneInBoxStatus {
+   BOTH_OUT = 0;     //都未在盒
+   LEFT_IN = 1;      //仅左耳在盒
+   RIGHT_IN = 2;     //仅右耳在盒 
+   BOTH_IN = 3;      //都在盒
+ }
+  
+ message Properties{
+   bool power = 1;
+   SmartNoiseCancellingMode mode = 2;
+   bool boxCoverStatus = 3;
+   EarphoneWearStatus wearSta = 4;
+   EarphoneInBoxStatus inBoxSta = 5;
+   bool speechControlEnabled = 6;
+ }
+
+

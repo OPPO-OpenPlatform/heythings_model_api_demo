@@ -1,0 +1,34 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file mfa.proto
+ * @brief manualFireAlarm service proto
+ * @version 0.1
+ * @date 2020-8-7
+ * @author Lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.mfa;
+option objc_class_prefix = "Iot_Service_Mfa_";
+  
+ message ActionInReset{
+
+ }
+ 
+ message ActionOutReset{
+
+ }
+ 
+ message EventStartMfa{
+
+ }
+ 
+ message Properties{
+   bool power = 1;
+   bool alarmState = 2;
+   // event startMfa(EventStartMfa) = 3;
+   // action reset(ActionInReset) returns (ActionOutReset) = 4;
+
+ }

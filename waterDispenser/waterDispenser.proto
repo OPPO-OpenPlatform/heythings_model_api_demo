@@ -1,0 +1,98 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file waterDispenser.proto
+ * @brief waterDispenser service proto
+ * @version 0.1
+ * @date 2021-1-18
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+  
+ package iot.service.waterDispenser;
+option objc_class_prefix = "Iot_Service_WaterDispenser_";
+ 
+ enum WaterType {
+   NONE = 0;
+   COLD_WATER = 1;
+   HOT_WATER = 2;
+   AMBINENT = 3;
+   ICE_WATER = 4;
+ }
+ 
+ enum MachineStatus{
+   IDLE = 0;
+   PREACTIVE = 1;
+   ACTIVE = 2;
+   STOPED = 3;
+   ERROR = 4;
+ }
+ 
+ enum HeatStatus{
+   HEATSTATUS_NONE = 0;
+   HEATSTATUS_HEAT = 1;
+   HEATSTATUS_PRESERVATION = 2;
+ }
+ 
+ enum CoolStatus{
+   COOLSTATUS_NONE = 0;
+   COOLSTATUS_COOL = 1;
+   COOLSTATUS_PRESERVATION = 2;
+ }
+ 
+ enum SterilizationPeriod{
+   PERIOD_NONE = 0;
+   PERIOD_1 = 1;
+   PERIOD_2= 2;
+   PERIOD_3 = 3;
+ }
+ 
+ enum OperationMode{
+   STOP = 0;
+   PAUSE = 1;
+   RESUME = 2;
+   CANCEL = 3;
+   START = 4;
+ }
+ 
+ message UserDefineTemp{
+   bool status = 1;
+   uint32 temperature = 2;
+ }
+ 
+ message WaterQuantity{
+   uint32 quantity = 1;
+ }
+
+ message Properties{
+   bool power = 1;
+   WaterType waterType = 2;
+   bool screenDisplayEnabled = 3;
+   bool heatEnabled = 4;
+   HeatStatus heatStatus = 5;
+   bool coolEnabled = 6;
+   CoolStatus coolStatus = 7;
+   uint32 heatPreservationTime = 8;
+   repeated ArrayNode userDefineTemp = 9;
+   repeated ArrayNode waterQuantity = 10;
+   uint32 heatTime = 11;
+   MachineStatus machineStatus = 12;
+   bool childLockEnabled = 13;
+   bool sterilizationEnabled = 14;
+   uint32 sterilizationLeftDays = 15;
+   SterilizationPeriod sterilizationPeriod = 16;
+   uint32 sterilizationPercent = 17;
+   bool waterFlowStatus = 18;
+   OperationMode operationMode = 19; 
+   bool autoSeason = 20;
+   uint32 teaTemp = 21;
+   uint32 coffeeTemp = 22;
+   uint32 honeyTemp = 23;
+   uint32 milkTemp = 24;
+   uint32 currentTemperature = 25;
+ }
+
+

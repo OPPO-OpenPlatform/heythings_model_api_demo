@@ -1,0 +1,112 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file burner.proto
+ * @brief burner service proto
+ * @version 0.1
+ * @date 2021-1-19
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+
+ package iot.service.highSpeedBlender;
+option objc_class_prefix = "Iot_Service_HighSpeedBlender_";
+
+ enum HighSpeedBlenderMode{
+   STIRRING = 0;   //搅拌
+   LOWSUGAR_PASTE = 1;  //低糖糊
+   CEREAL_PULP = 2;//五谷浆
+   PORRIDGE = 3;  //粥
+   SOYBEAN_MILK = 4; //豆浆
+   FRUITVEGETABLE_JUICE = 5; //果蔬汁
+   CEREAL_FLOUR = 6; //五谷粉
+   STERILIZATIONWASHING = 7; //杀菌洗
+   HEATPRESERVATION = 8; //保温
+ }
+ 
+  enum MachineStatus{
+   IDLE = 0;
+   PREACTIVE = 1;
+   ACTIVE = 2;
+   STOPED = 3;
+   ERROR = 4;
+ }
+ 
+  enum BlenderOperationMode{
+   CANCEL = 0;
+   SCHEDULE = 1;
+   START = 2;
+   PAUSE = 3;
+ }
+ 
+ enum HighSpeedBlenderJobStatus{
+   JOB_STANDBY = 0;
+   JOB_SCHEDULE = 1;
+   JOB_ACTIVE = 2;
+   JOB_PRESERVATION_HEAT = 3;
+   JOB_PAUSE = 4;
+ }
+ 
+ enum HighSpeedBlenderStepStatus{
+   NONE = 0;
+   SPEED_HOT = 1;
+   BREAK_WALL = 2;
+   INFUSION = 3;
+   PITHY = 4;
+   AROMA = 5;
+   MAKING = 6;
+ }
+
+ enum CupType{
+   DEFAULT = 0;
+   MOTHER_CUP = 1;   //母杯（热杯）
+   COLD_CUP = 2;     //冷杯/研磨杯
+   SUB_CUP = 3;      //子杯（热杯）
+   SHREDDED_CUP = 4; //切丝杯（食物杯）
+   COOKING_CUP = 5;  //烹饪杯
+ }
+
+ message ActionInSelfCleaning{
+ 
+ }
+ 
+ message ActionOutSelfCleaning{
+ 
+ }
+ 
+ message AppointmentTaskCompleted{
+   bool status = 1;
+   string name = 2;
+   uint32 hour = 3;
+   uint32 min = 4;
+   uint32 sec = 5;
+ }
+ 
+ message Properties{
+  bool power = 1;
+  HighSpeedBlenderMode highSpeedBlenderMode = 2;
+  uint32 processingSpeed = 3;
+  bool vacuumStorageEnabled = 4;
+  bool vacuumGrindEnabled = 5;
+  bool vacuumFruitEnabled = 6;
+  MachineStatus machineStatus = 7;
+  BlenderOperationMode blenderOperationMode = 8;
+  // action selfCleaning(ActionInSelfCleaning) returns (ActionOutSelfCleaning) = 9;
+  HighSpeedBlenderJobStatus highSpeedBlenderJobStatus = 10;
+  bool heatPreservationMode = 11;
+  uint32 targetTemperature = 12;
+  uint32 currentTemperature = 13;
+  AppointmentTaskCompleted appointmentTaskCompleted = 14;
+  uint32 operationTime = 15;
+  uint32 heatPreservationTime = 16;
+  uint32 remainTime = 17;
+  HighSpeedBlenderStepStatus highSpeedBlenderStepStatus = 18;
+  bool contactStatus = 19;
+  uint32 preservingHeatDuration = 20;
+  uint32 appointmentRemainTime = 21;
+  uint32 runningDuration = 22;
+  bool timeDisplay = 23;
+  bool horseRaceLampDisplay = 24;
+  CupType cupType = 25;
+ }

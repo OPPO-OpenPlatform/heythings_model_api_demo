@@ -1,0 +1,56 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file filter.proto
+ * @brief filter service proto
+ * @version 0.2
+ * @date 2020-12-3
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.filter;
+option objc_class_prefix = "Iot_Service_Filter_";
+ 
+ message ActionInSelfCleaning{
+
+ }
+
+ message ActionOutSelfCleaning{
+   
+ }
+
+ message EventFilterReplacement{
+
+ }
+
+ message EventFilterCleaning{
+   
+ }
+ 
+ message ActionInFilterReset{
+ 
+ }
+ 
+ message ActionOutFilterReset{
+ 
+ }
+
+ message Properties{
+   uint32 filterUsedTime = 1;  
+   uint32 filterLeftTime = 2;
+   // action selfCleaning(ActionInSelfCleaning) returns (ActionOutSelfCleaning) = 3;  
+   // event filterReplacement(EventFilterReplacement) = 4;
+   // event filterCleaning(EventFilterCleaning) = 5;
+   uint32 prefilterUsedTime = 6;  // primary filter used time;optional attribute ; may be of removal in the future;
+   // action filterReset(ActionInFilterReset) returns (ActionOutFilterReset) = 7;
+   uint32 prefilterPercent = 8;  // primary filter Percent;optional attribute ,may be of removal in the future;
+   uint32 filterPercent = 9;
+   uint32 filterWater = 10;
+   bool filterStatus = 11;
+   
+   
+ }
+
+

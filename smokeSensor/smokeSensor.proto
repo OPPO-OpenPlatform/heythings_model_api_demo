@@ -1,0 +1,31 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file smokeSensor.proto
+ * @brief smokeSensor service proto
+ * @version 0.1
+ * @date 2020-8-7
+ * @author Lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.smokeSensor;
+option objc_class_prefix = "Iot_Service_SmokeSensor_";
+  
+ message EventSmokeDetected{
+
+ }
+ 
+  message EventNoSmoke{
+
+ }
+ 
+ message Properties{
+   uint32 smokeConcentration = 1;
+   bool alarmState = 2;
+   uint32 smokeThreshold = 3;
+   // event smokeDetected(EventSmokeDetected) = 4;
+   // event noSmoke(EventNoSmoke) = 5;
+
+ }

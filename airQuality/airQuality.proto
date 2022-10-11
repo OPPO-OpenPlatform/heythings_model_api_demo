@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file airQuality.proto
+ * @brief airQuality service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.airQuality;
+option objc_class_prefix = "Iot_Service_AirQuality_";
+
+ enum LEVEL {
+   LEVEL_1 = 0;
+   LEVEL_2 = 1;
+   LEVEL_3 = 2;
+   LEVEL_4 = 3;
+   LEVEL_5 = 4;
+ }
+
+ message Properties{
+   uint32 pm1 = 1;
+   uint32 pm2 = 2;
+   uint32 pm10 = 3;
+   uint32 co2 = 4;
+   uint32 co = 5;
+   uint32 ch20 = 6;
+   uint32 voc = 7;
+   uint32 currentHumidity = 8;
+   LEVEL ashTvoc = 9;
+   LEVEL smellTvoc = 10;
+   bool monitoringEnabled = 11;
+   LEVEL airQualityLevel = 12;
+ }
+

@@ -1,0 +1,55 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file airConditioner.proto
+ * @brief airConditioner service proto
+ * @version 0.4
+ * @date 2021-1-22
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.airConditioner;
+option objc_class_prefix = "Iot_Service_AirConditioner_";
+ 
+ enum AcMode {
+   MODE_AUTO = 0;
+   MODE_COOL = 1;
+   MODE_HEAT = 2;
+   MODE_DRY = 3;
+   MODE_FAN = 4;
+ }
+
+ enum DisplayingTempUnit {
+   UNIT_K = 0;
+   UNIT_F = 1;
+   UNIT_C = 2;
+ }
+ 
+ enum Sleep {
+   S_OFF = 0;
+   S_ON = 1;
+ }
+  
+ message Properties{
+   bool power = 1;
+   AcMode acMode = 2;
+   bool eco = 3;
+   Sleep sleep = 4;
+   bool rapidMode = 5;
+   bool electricHeating = 6;
+   int32 currentTemperature = 7;
+   int32 targetTemperature = 8;
+   int32 outdoorTemperature = 9;
+   DisplayingTempUnit displayingTempUnit = 10;
+   bool speechControlEnabled = 11;
+   bool screenDisplayEnabled = 12;
+   bool preventSuperCool = 13;
+   uint32 appointmentPowerOn = 14;  //0-invalid
+   bool airDry = 15;
+   uint32 appointmentPowerOff = 16; //0-invalid
+   bool mute = 17;
+ }
+
+

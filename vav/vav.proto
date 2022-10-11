@@ -1,0 +1,23 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file vav.proto
+ * @brief vav service proto
+ * @version 0.1
+ * @date 2020-8-10
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.vav;
+option objc_class_prefix = "Iot_Service_Vav_";
+ 
+ message Properties{
+   bool pressureDiffSta = 1;
+   uint32 currentTemperature = 2;
+   uint32 co2 = 3;
+   uint32 airflowRate = 4;
+   uint32 maxAirflowRate = 5;
+
+ }

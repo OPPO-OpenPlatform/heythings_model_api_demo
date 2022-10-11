@@ -1,0 +1,36 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file raf.proto
+ * @brief raf service proto
+ * @version 0.1
+ * @date 2020-8-10
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.raf;
+option objc_class_prefix = "Iot_Service_Raf_";
+ 
+ message Properties{
+   bool power = 1;
+   bool mannulAutoSta = 2;
+   bool faultSta = 3;
+   uint32 currentTemperature = 4;
+   uint32 targetTemperature = 5;
+   uint32 currentHumidity = 6;
+   uint32 targetHumidity = 7;
+   uint32 currentPres1 = 8;
+   uint32 currentPres2 = 9;
+   uint32 targetPres1 = 10;
+   uint32 targetPres2 = 11;
+   uint32 co2 = 12;
+   uint32 targetCo2 = 13;
+   uint32 vlvOpening = 14;
+   uint32 vlvFeedback = 15;
+   uint32 maxHumidity = 16;
+
+ }
+
+

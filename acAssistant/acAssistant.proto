@@ -1,0 +1,122 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file acAssistant.proto
+ * @brief acAssistant service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.acAssistant;
+option objc_class_prefix = "Iot_Service_AcAssistant_";
+
+message ActionInIssuingIrCommand {  // iid is 16
+  bytes IrCode = 1;
+}
+
+message ActionOutIssuingIrCommand{
+  
+}
+
+enum AcMode {
+  MODE_AUTO = 0;
+  MODE_COOL = 1;
+  MODE_HEAT = 2;
+  MODE_DRY = 3;
+  MODE_FAN = 4;
+}
+
+enum DisplayingTempUnit {
+  UNIT_K = 0;
+  UNIT_F = 1;
+  UNIT_C = 2;
+}
+
+enum FanMode {
+  FAN_NORMAL = 0;
+  FAN_NATURAL = 1;
+  FAN_SLEEP = 2;
+  FAN_COMFORTABLE = 3;
+  FAN_HUMAN_FEELING = 4;
+  FAN_QUIET = 5;
+}
+
+enum WindSpeed {
+  SPEED_AUTO = 0;
+  SPEED_ONE = 1;
+  SPEED_TWO = 2;
+  SPEED_THREE = 3;
+  SPEED_FOUR = 4;
+}
+
+enum HorizontalDirection {
+  HL_STOP = 0;
+  HL_AUTO = 1;
+  HL_ONE = 2;
+  HL_TWO = 3;
+  HL_THREE = 4;
+  HL_FOUR = 5;
+  HL_FIVE = 6;
+}
+
+enum VerticalDirection {
+  VL_STOP = 0;
+  VL_AUTO = 1;
+  VL_ONE = 2;
+  VL_TWO = 3;
+  VL_THREE = 4;
+  VL_FOUR = 5;
+  VL_FIVE = 6;
+}
+
+enum SleepCurveMode {
+  CURVE_OLD_MAN = 0;
+  CURVE_CHILD = 1;
+  CURVE_CONSERVATION = 2;
+}
+
+message SleepCurveModeDefinition {
+  message ModeDefinition {
+    message Config {
+      uint32 siid = 1;
+      repeated uint32 iid = 2;
+      bytes data = 3;
+    }
+    uint32 hour = 1;
+    uint32 min = 2;
+    repeated Config config = 3;
+  }
+
+  uint32 mode = 1;
+  string modeName = 2;
+  repeated ModeDefinition modeDefinition = 3;
+}
+
+ enum Sleep {
+   S_OFF = 0;
+   S_ON = 1;
+ }
+
+message Properties {
+  bool power = 1;
+  AcMode acMode = 2;
+  bool eco = 3;
+  Sleep sleep = 4;
+  bool rapidMode = 5;
+  bool electricHeating = 6;
+  int32 targetTemperature = 7;
+  DisplayingTempUnit displayingTempUnit = 8;
+  FanMode fanMode = 9;
+  WindSpeed windSpeed = 10;
+  HorizontalDirection horizontalDirection = 11;
+  VerticalDirection verticalDirection = 12;
+  bool sleepCurveEnabled = 13;
+  SleepCurveMode sleepCurveMode = 14;
+  repeated ArrayNode sleepCurveModeDefinition = 15;
+  // action issuingIrCommand(ActionInIssuingIrCommand) returns (ActionOutIssuingIrCommand) = 16;
+}

@@ -1,0 +1,34 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file devCountDown.proto
+ * @brief devCountDown service proto
+ * @version 0.1
+ * @date 2019-11-23
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.devCountDown;
+option objc_class_prefix = "Iot_Service_DevCountDown_";
+ 
+message Config{
+  uint32 siid = 1;
+  repeated uint32 iid = 2;
+  bytes data = 3; //由siid对应的服务模型进行解析
+}
+ 
+ message CountDown{
+     bool status = 1;
+     string name = 2;
+     uint32 timeLeft = 3;
+     repeated Config config = 4;
+     uint32 settingTime = 5;
+ }
+ 
+ message Properties{
+     repeated ArrayNode countDown = 1;
+ }

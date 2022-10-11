@@ -1,0 +1,562 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file camera.proto
+ * @brief camera service proto
+ * @version 1.1
+ * @date 2022-07-08
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.camera;
+option objc_class_prefix = "Iot_Service_Camera_";
+ 
+ enum RecordMode{
+    NOT_RECORD = 0;
+    ALLWAYS_RECORD = 1;
+    EVENT_RECORD = 2;
+ }
+
+ enum PredefinedResolution{
+    AUTO = 0;
+    R360P = 1;
+    R720P = 2;
+    R1080P = 3; //2K
+    R1280P = 4;
+    R1296P = 5;
+    R480P = 6;
+    R1440P = 7; //2.5K
+ }
+ 
+ enum NightVisionSta{
+    N_AUTO = 0;
+    N_ON = 1;
+    N_OFF = 2;
+ }
+
+ enum AutoCruiseDetection{
+    CLOSE = 0;
+    FAVPOSCRUISE = 1;
+    PANORAMICCRUISE = 2;
+ }
+ message FixedPositionAndTimeRecord{
+    message Position{
+      uint32 x = 1;
+      uint32 y = 2;
+    }
+
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 hour = 2; //0-23
+    uint32 min = 3;  //0-59
+    Position position = 4;
+ }
+
+ message AppeasingBabyWorkingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message AutoDetectionWorkingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+   // 如果结束时间点小于或者等于开始时间点，则表示该时间段跨天；
+   // 在跨天设定中进允许跨一天；且在跨天设定中week仅对应fromHour所在的标志位置位；
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+ 
+ message VoiceMemoPlayCondition{
+    message PeriodCondition{
+       uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+       uint32 hour = 2; //0-23
+       uint32 minute = 3;  //0-59 
+    }
+
+    message FaceCondition{
+       string faceID = 1;
+       string name = 2;
+    }
+    
+    PeriodCondition periodCondition = 1;
+    FaceCondition faceCondition = 2;
+    bool enable = 3;
+    string fileID = 4;
+ }
+
+ enum RingingSound{
+    SILENT  = 0;
+    RING1 = 1;
+    RING2 = 2;
+ }
+
+ message ActionInLinearMovement{
+    enum LinearMovementtype{
+       UP = 0;
+       DOWN = 1;
+       RIGHT = 2;
+       LEFT = 3;
+       FORWARD = 4;
+       BACK = 5;
+    }
+
+    LinearMovementtype linearMovementtype = 1;
+ }
+
+message ActionOutLinearMovement {
+    enum BorderState {
+        NOT_ON_BORDER = 0;
+        UP_BORDER = 1;
+        DOWN_BORDER = 2;
+        RIGHT_BORDER = 3;
+        LEFT_BORDER = 4;
+        FORWARD_BORDER = 5;
+        BACK_BORDER = 6;
+    }
+    uint32 x = 1;
+    uint32 y = 2;
+    BorderState state = 3;
+}
+
+ message ActionInGetRecordList{
+   uint64 fromTime = 1;
+   uint64 toTime = 2;
+   uint32 recordCount = 3;
+ }
+ 
+ message ActionOutGetRecordList{
+   message PictureInfo{
+         message RecordPoint{
+            enum RecordeEventType{
+            PICTURE_CHANGE = 0;
+            CRY = 1;
+            STAYING_DOORWAY = 2;
+            PASSING_BY_DOOR = 3;
+            HUMAN_MOTION = 4;
+            ANIMAL_MOTION = 5;
+            CAT_MOTION = 6;
+            DOG_MOTION = 7;
+            DIAL_RECORD = 8; //一键通话拨打记录
+         }
+         
+         RecordeEventType type = 1;
+         uint64 frameIndex = 2;
+      }
+
+      string recordFileName = 1;
+      string thumbnailFileName = 2;
+      uint64 recordStartTime = 3;
+      uint32 recordElapsedTime = 4;
+      bool autoDeleteEnabled = 5;
+      repeated RecordPoint recordPoint = 6;
+   }
+
+   uint32 totalRecordCount = 1;
+   repeated PictureInfo pictureInfo = 2;
+ }
+
+ message ActionInDelRecordInfo{
+    repeated uint64 recordStartTime = 1;
+ }
+
+ message ActionOutDelRecordInfo{
+
+ }
+
+ message ActionInTakePhoto{
+
+ }
+
+ message ActionOutTakePhoto{
+    string fileName = 1;
+ }
+
+ message ActionInGetPictureList{
+   uint64 fromTime = 1;
+   uint64 toTime = 2;
+   uint32 count = 3;
+ }
+ 
+ message ActionOutGetPictureList{
+   message PictureInfo{
+      string fileName = 1;
+      uint64 captureTime = 2;
+   }
+
+   uint32 totalCount = 1;
+   repeated PictureInfo pictureInfo = 2;
+ }
+
+ message ActionInDelPictureInfo{
+    repeated string fileName = 1;
+ }
+
+ message ActionOutDelPictureInfo{
+
+ }
+
+ message EventCryDetectionStart{
+    uint64 eventStartTime = 1;
+    bool uploadVideoEnable = 2;
+ }
+
+ message EventCryDetectionEnd{
+    uint64 eventEndTime = 1;
+ }
+
+ message EventFaceRecognitionDetected{
+    repeated string faceInfoName  = 1;
+    string thumbnaiUrl = 2;
+ }
+
+ message EventRecordNotify{
+    enum EnumMediaType{
+       PICTURE = 0;
+       AUDIO = 1;
+       VIDEO = 2;
+    }
+
+    string fileName = 1;
+    EnumMediaType mediaType = 2;
+ }
+
+ message EventMotionDetectionStart{
+    enum ResultType{
+       PICTURE_CHANGE = 0;
+       STAYING_DOORWAY = 1;
+       PASSING_BY_DOOR = 2;
+       HUMAN_MOTION = 3;
+       ANIMAL_MOTION = 4;
+       CAT_MOTION = 5;
+       DOG_MOTION = 6;
+    }
+
+    uint64 eventStartTime = 1;
+    ResultType resultType = 2;
+    bool uploadVideoEnable = 3;
+ }
+ 
+ message EventMotionDetectionEnd{
+    uint64 eventEndTime = 1;
+   
+ }
+ 
+ message AppeasingBabyMusic{
+    enum FileType{
+       FROM_VENDOR = 0;
+       FROM_USER = 1;
+    }
+    string fileUrl = 1;
+    FileType fileType = 2;
+    uint32 duration = 3; // 单位秒；
+ }
+ 
+ message AppeasingBabyMusicPlayMode{
+    enum PlayMode{
+       SINGLE_PLAY = 0;
+       RANDOM_PLAY = 1;
+    }
+
+    PlayMode playMode = 1;
+ }
+ 
+ message AppeasingBabyMusicPlaySetting{
+    string fileUrl = 1;
+    uint32 time = 2;  // >=1
+ }
+ 
+ message FavouriteCruisedPosition{
+    message Position{
+       uint32 x = 1;
+       uint32 y = 2;
+    }
+    
+    string name = 1;
+    string fileId = 2;
+    Position position = 3;
+
+ }
+ 
+ message FixedPositionForRecord{
+    uint32 x = 1;
+    uint32 y = 2;
+ }
+ 
+ message VoiceMemo{
+    string fileID = 1;
+    uint32 duration = 2; // 单位秒；
+ }
+ 
+ message FaceSource{
+    string faceID = 1; 
+    string faceInfo = 2; //the discription text ,for example, face owner name;
+    string faceUrl = 3;   
+ }
+
+ message ActionInPtzCalibration{
+
+ }
+
+ message ActionOutPtzCalibration{
+
+ }
+
+ message ActionInSoundAlarm{
+
+ }
+
+ message ActionOutSoundAlarm{
+
+ }
+ 
+ message ActionInMovingToFavPosition{
+    uint32 x = 1;
+    uint32 y = 2;
+ }
+ 
+  message ActionOutMovingToFavPosition{
+
+ }
+ 
+ message ActionInGetRecordingTime{
+    enum Precision{
+       DAY = 0;
+       HOUR = 1;
+       MINUTE = 2;
+    }
+    uint64 fromTime = 1;
+    uint64 toTime = 2;
+    uint32 recordCount = 3;
+    Precision precision = 4;
+ }
+ 
+  message ActionOutGetRecordingTime{
+    uint32 totalRecordCount = 1;
+    // 如果precision为Day，则timeOfRecording取值该日为0点0分0秒时间戳；
+    // 如果precision为Hour，则timeOfRecording取值该日为该时，0分0秒时间戳；
+    // 如果precision为Minute，则timeOfRecording取值该日为该时该分0秒时间戳；
+    // 秒级时间戳;
+    repeated uint64 timeOfRecording = 2; 
+ }
+ 
+ message ActionInGetCurrentPosition{
+ 
+ }
+ 
+ message ActionOutGetCurrentPosition{
+    uint32 x = 1;
+    uint32 y = 2;
+ }
+ 
+ message ActionInPlayVoiceMemo{
+    string fileID = 1;
+ }
+ 
+ message ActionOutPlayVoiceMemo{
+ 
+ }
+ 
+ message ActionInGetRecordEventList{
+    uint64 fromTime = 1;
+    uint64 toTime = 2;
+    uint32 recordCount = 3;
+ }
+ 
+ message ActionOutGetRecordEventList{
+    message EventInfo{
+       enum EventType{
+          PICTURE_CHANGE = 0;
+          CRY = 1;
+          STAYING_DOORWAY = 2;
+          PASSING_BY_DOOR = 3;
+          HUMAN_MOTION = 4;
+          ANIMAL_MOTION = 5;
+          CAT_MOTION = 6;
+          DOG_MOTION = 7;
+          DIAL_RECORD = 8; //一键通话拨打记录
+       }
+
+       EventType eventType = 1;
+       uint64 startTime = 2;
+       uint64 endTime = 3;
+       uint64 notificationId = 4;
+    }
+    
+    uint32 totalCount = 1;
+    repeated EventInfo eventInfo = 2;
+ }
+ 
+ enum PictureFlipMode{
+    NO_FLIP = 0;
+    VERTICAL_FLIP = 1;
+    HORIZONTAL_FLIP = 2;
+    CENTRAL_FLIP = 3; //VERTICAL_FLIP + HORIZONTAL_FLIP
+ }
+ 
+ message ActionInGetVideoPeriod{
+ 
+ }
+ 
+  message ActionOutGetVideoPeriod{
+    uint64 endTime = 1;
+    uint64 startTime = 2;
+ }
+ 
+ message LimitedPosition{
+    uint32 maxHorizontalAngle = 1;
+    uint32 maxVerticalAngle = 2;
+ }
+ 
+  message SleepModeWorkingPeriod{
+    message SleepPeriod{
+       uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+       uint32 fromHour = 2; //0-23
+       uint32 fromMin = 3;  //0-59
+       uint32 toHour = 4; //0-23
+       uint32 toMin = 5;  //0-59
+    }
+    bool enable = 1;
+    SleepPeriod sleepPeriod = 2;
+ }
+ 
+ message ActionInDeviceReboot{
+ 
+ }
+ 
+ message ActionOutDeviceReboot{
+ 
+ }
+ 
+message ActionInPanorama {
+  uint32 horizontalAngle = 1;
+  uint32 verticalAngle = 2;
+}
+
+message ActionOutPanorama {
+  message Picture {
+    message Position {
+      uint32 x = 1;
+      uint32 y = 2;
+    }
+    string fileId = 1;
+    Position point = 2;
+  }
+  enum EndCode {
+    SUCCESS = 0; //成功，完成后再应答
+    BUSY = 1; //忙，无法执行
+  }
+  
+  oneof sendType {
+    Picture pic = 1;
+    EndCode code = 2;
+  }
+}
+
+message EventDialRecordStart{
+  uint64 eventStartTime = 1;
+  bool uploadVideoEnable = 2;
+}
+
+message EventDialRecordEnd{
+  uint64 eventEndTime = 1;
+}
+
+ message Properties{
+   bool power = 1; //开关机
+   RecordMode recordMode = 2;
+   PredefinedResolution resolution = 3;
+   NightVisionSta nightVisionSta = 4;
+   bool recordMute = 5;
+   bool autoDetectionEnabled = 6;
+   bool fixedPositionDetectionEnabled = 7;
+   AutoCruiseDetection autoCruiseDetection = 8;
+   bool faceRecognitionEnabled = 9;
+   bool multimediaWithTimeWatermark = 10;
+   bool pushMotionDetectionEnabled = 11;
+   uint32 pushMotionDetectionSilentTime = 12;
+   uint32 cameraSensitivity = 13;
+   repeated ArrayNode favouriteCruisedPosition = 14;
+   repeated ArrayNode fixedPositionForRecord = 15;
+   bool cryDetectionEnabled = 16;
+   bool pushCryDetectionEnabled = 17;
+   uint32 pushCryDetectionSilentTime = 18;
+   bool appeasingBabyEnabled = 19;
+   bool indicatorLightEnabled = 20;
+   bool correctLenDistortionEnabled = 21;
+   bool wdrEnabled = 22;
+   bool pushFaceRecognitionEnabled = 23;
+   uint32 pushFaceRecognitionSilentTime = 24;
+   repeated ArrayNode fixedPositionAndTimeRecord = 25;
+   repeated ArrayNode appeasingBabyWorkingPeriod = 26;
+   repeated ArrayNode autoDetectionWorkingPeriod = 27;
+   bool motionTrackingEnabled = 28;
+   uint32 soundAlarmTime = 29;
+   uint32 soundAlarmVolume = 30;
+   RingingSound ringingSound = 31;
+   uint32 recordMotionDetectionSilenceTime = 32;
+   uint32 recordHumanMotionSilenceTime = 33;
+   uint32 recordAnimalMotionSilenceTime = 34;
+   uint32 recordCryDetectionSilenceTime = 35;
+   uint32 recordFaceRecognitionSilentTime = 36;
+   repeated ArrayNode appeasingBabyMusic = 37;
+   AppeasingBabyMusicPlayMode appeasingBabyMusicPlayMode = 38;
+   AppeasingBabyMusicPlaySetting appeasingBabyMusicPlaySetting = 39;
+   uint32 pushHumanMotionSilenceTime = 40;
+   uint32 pushAnimalMotionSilenceTime = 41;
+   bool pushHumanMotionEnabled = 42;
+   bool pushAnimalMotionEnabled = 43;
+   repeated ArrayNode voiceMemo = 44;
+   // action ptzCalibration(ActionInPtzCalibration) returns (ActionOutPtzCalibration) = 45;
+   // action linearMovement(ActionInLinearMovement) returns (ActionOutLinearMovement) = 46;
+   // action getRecordList(ActionInGetRecordList) returns (ActionOutGetRecordList) = 47;
+   // action delRecordInfo(ActionInDelRecordInfo) returns (ActionOutDelRecordInfo) = 48;
+   // action getVideoPeriod(ActionInGetVideoPeriod) returns (ActionOutGetVideoPeriod) = 49;
+   // action takePhoto(ActionInTakePhoto) returns (ActionOutTakePhoto) = 50;
+   // action getCurrentPosition(ActionInGetCurrentPosition) returns (ActionOutGetCurrentPosition) = 51;
+   // action getPictureList(ActionInGetPictureList) returns (ActionOutGetPictureList) = 52;
+   // action delPictureInfo(ActionInDelPictureInfo) returns (ActionOutDelPictureInfo) = 53;
+   // action soundAlarm(ActionInSoundAlarm) returns (ActionOutSoundAlarm) = 54;
+   // action playVoiceMemo(ActionInPlayVoiceMemo) returns (ActionOutPlayVoiceMemo) = 55;
+   // event cryDetectionStart(EventCryDetectionStart) = 56;
+   // event faceRecognitionDetected(EventFaceRecognitionDetected) = 57;
+   repeated ArrayNode faceSource = 58;
+   // event recordNotify(EventRecordNotify) = 59;
+   // event motionDetectionStart(EventMotionDetectionStart) = 60;
+   // event motionDetectionEnd(EventMotionDetectionEnd) = 61;
+   // event cryDetectionEnd(EventCryDetectionEnd) = 62;
+   bool pushPictureChangeEnabled = 63;
+   uint32 pushPictureChangeSilenceTime = 64;
+   uint32 recordPictureChangeSilenceTime = 65;
+   repeated ArrayNode voiceMemoPlayCondition = 66;
+   bool pushCatMotionEnabled = 67;
+   bool pushDogMotionEnabled = 68;
+   uint32 pushCatMotionSilentTime = 69;
+   uint32 pushDogMotionSilentTime = 70;
+   uint32 recordCatMotionSilenceTime = 71;
+   uint32 recordDogMotionSilenceTime = 72;
+   // action movingToFavPosition(ActionInMovingToFavPosition) returns (ActionOutMovingToFavPosition) = 73;
+   // action getRecordingTime(ActionInGetRecordingTime) returns (ActionOutGetRecordingTime) = 74;
+   // action getRecordEventList(ActionInGetRecordEventList) returns (ActionOutGetRecordEventList) = 75;
+   bool eventVideoUploadCloudEnable = 76;
+   uint32 groupOfPictures = 77;
+   uint32 framesPerSecond = 78;
+   PictureFlipMode pictureFlipMode = 79;
+   LimitedPosition limitedPosition = 80;
+   repeated ArrayNode sleepModeWorkingPeriod = 81;
+   // action deviceReboot(ActionInDeviceReboot) returns (ActionOutDeviceReboot) = 82;
+   uint32 bitRate = 83;
+   bool sleep = 84;
+   // action panorama(ActionInPanorama) returns (stream ActionOutPanorama) = 85;  //由被动端发起正常结束事务
+   // event dialRecordStart(EventDialRecordStart) = 86;
+   // event dialRecordEnd(EventDialRecordEnd) = 87;
+   bool oneTouchCallEnabled = 88;
+}
+
+

@@ -1,0 +1,46 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file smartCurtain.proto
+ * @brief smartCurtain service proto
+ * @version 0.1
+ * @date 2020-12-22
+ * @author Rashid
+ */
+
+ syntax = "proto3";
+ 
+ package iot.service.smartCurtain;
+option objc_class_prefix = "Iot_Service_SmartCurtain_";
+ 
+ enum OpenCloseState{
+   STATE_OPEN = 0;
+   STATE_CLOSE = 1;
+   STATE_OPENING = 2;
+   STATE_CLOSING = 3;
+   STATE_STOP = 4;   
+ }
+ 
+ message ActionInOpen{
+ 
+ }
+ 
+ message ActionOutOpen{
+ 
+ }
+ 
+ message ActionInClose{
+ 
+ }
+ 
+ message ActionOutClose{
+ 
+ }
+ 
+ message Properties{
+   bool power = 1;
+   OpenCloseState openCloseState = 2;
+   uint32 openLevel = 3 ;
+   // action open(ActionInOpen) returns(ActionOutOpen) = 4;
+   // action close(ActionInClose) returns(ActionOutClose) = 5;
+}

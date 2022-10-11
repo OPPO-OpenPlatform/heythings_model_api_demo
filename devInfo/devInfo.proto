@@ -1,0 +1,62 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file devInfo.proto
+ * @brief devInfo service proto
+ * @version 0.2
+ * @date 2022-09-26
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.devInfo;
+option objc_class_prefix = "Iot_Service_DevInfo_";
+ 
+ message DevCapability{
+   enum Network{
+      WIFI_2P4G = 0;
+      WIFI_5G = 1;
+      BLE_4 = 2;
+      BLE_5 = 3;
+      BLE_MESH = 4;
+      BT = 5;
+      ETHERNET = 6;
+   }
+
+   repeated Network network = 1;
+   bool cloudConnectable = 2; // 1-有连网能力，直接与云端保持心跳，0-无连网能力，通过网关邻居表方式维护与云端连接状态
+ }
+
+ message Properties{
+    string devName = 1;
+    string manufacturer = 2;
+    string model = 3;
+    string brand = 4;
+    string softVerName = 5;
+    fixed64 did = 6;
+    fixed32 pid = 7;
+    uint32 cid = 8;
+    string mac = 9; 
+    string hardVer = 10;
+    string sn = 11;
+    fixed64 parentDid = 12;
+    int32 rssi = 13;
+    string bssid = 14;
+    string ip = 15;
+    string devTime = 16;
+    uint64 utc = 17;
+    string timezone = 18;
+    uint32 softVerCode = 19;
+    //int64 latitude = 20;
+    reserved 20;
+    string ssid = 21;
+    bytes devPubKey = 22;        //用于上传云端进行家庭签名
+    string vendorDevId = 23;     //dev identify in cloud
+    DevCapability devCapability = 24;
+    //bool online = 25;            //是否在线，0-离线, 1-在线
+    reserved 25;
+    uint32 offlineThreshold = 26;//子设备离线判断超时时间，单位：秒
+    reserved 27;
+    reserved 28;
+ }

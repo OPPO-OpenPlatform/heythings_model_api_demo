@@ -1,0 +1,96 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file mobileNetwork.proto
+ * @brief mobileNetwork service proto
+ * @version 0.2
+ * @date 2020-9-14
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.mobileNetwork;
+option objc_class_prefix = "Iot_Service_MobileNetwork_";
+ 
+ message ActionInSignalTest{
+
+ }
+
+ message ActionOutSignalTest{
+    uint32 signalScore = 1;
+ }
+
+ enum MobileNetworkMode{
+    MODE_AUTO = 0;
+    ONLY_4G = 1;
+    ONLY_5G = 2;
+ }
+
+ message NetworkInfo{
+    enum LinkStatus{
+       NO_SIM = 0;
+       UNCONNECTED = 1;
+       CONNECTING = 2;
+       CONNECTED = 3;
+    }
+
+    enum SignalStrength{
+       ONE_STRENGTH = 0;
+       TWO_STRENGTH = 1;
+       THREE_STRENGTH = 2;
+       FOUR_STRENGTH = 3;
+       FIVE_STRENGTH = 4;
+    }
+    LinkStatus linkStatus = 1;
+    string operatorName = 2;
+    SignalStrength signalStrength = 3;
+    uint32 uploadRate = 4;
+    uint32 downloadRate = 5; 
+ }
+ message ActionInModifyPIN{
+    string oldPIN = 1;
+    string newPIN = 2;     
+ }
+
+ message ActionOutModifyPIN{
+
+ }
+
+ message Apn{
+    enum Certification{
+       AUTO = 0;
+       PAP = 1;
+       CHAP = 2;
+    }
+
+    string userName = 1;
+    string password = 2;
+    Certification certification = 3;
+    string apn = 4;
+ }
+
+ message Properties{
+    repeated ArrayNode networkInfo = 1;
+    string mobileNetworkIPv4 = 2;
+    string mobileNetworkIPv6 = 3;
+    string cellID = 4;
+    string rsrp = 5;
+    string plmn = 6;
+    string imei = 7;
+    string imsi = 8;
+    // action signalTest(ActionInSignalTest) returns (ActionOutSignalTest) = 9;
+    bool mobileNetworkEnabled = 10;
+    bool mobileNetworkRomingEnabled = 11;
+    MobileNetworkMode mobileNetworkMode = 12;
+    string simPIN = 13;
+    //action modifyPIN(ActionInModifyPIN) returns (ActionOutModifyPIN) = 14; 
+    repeated ArrayNode apn = 15;
+    string mobileGateway = 16;
+    string mobileDNS = 17;
+ }
+
+
+

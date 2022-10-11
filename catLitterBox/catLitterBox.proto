@@ -1,0 +1,197 @@
+/**
+ * Copyright (c) 2008-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file catLitterBox.proto
+ * @brief catLitterBox service proto
+ * @version 0.6
+ * @date 2022-08-23
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.catLitterBox;
+option objc_class_prefix = "Iot_Service_CatLitterBox_";
+
+enum JobStatus {
+    STANDBY_STATUS = 0;
+    PREACTIVE_STATUS = 1;
+    WORK_STATUS = 2;
+    PAUSE_STATUS = 3;
+    CANCEL_STATUS = 4;
+    COMPLETE_STATUS = 5;
+}
+
+enum CatToiletMode {
+    IDLE = 0;
+    RESET = 1;
+    CLEAN_UP = 2;
+    SAND_CHANGE = 3;
+    SAND_SMOOTH = 4;
+}
+
+message CatToiletFaultCode {
+    enum Code {
+        WEIGHING_FAULT = 0;
+        MOTOR_FAULT = 1;
+        HALL_FAULT = 2;
+        RADAR_FAULT = 3;
+        ROLLER_NOT_IN_PLACE = 4;
+        COVER_NOT_IN_PLACE = 5;
+        TOO_HEAVY = 6;
+    }
+    repeated Code code = 1;
+}
+
+message AutoCleanup {
+    bool enabled = 1;
+    uint32 delayToStart = 2; //unit:s
+}
+
+enum CatToiletCatStatus {
+    CAT_IS_AWAY = 0;
+    CAT_IS_APPROACHING = 1;
+    CAT_IN = 2;
+    CAT_IS_LEAVING = 3;
+}
+
+message CatInfo {
+    uint32 catId = 1;
+    uint32 weight = 2; //unit:g
+    uint64 lastToiletTime = 3; //unit:s
+}
+
+message NoDisturbingPeriod {
+    bool status = 1;
+    uint32 week = 2; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 3;
+    uint32 fromMinute = 4;
+    uint32 fromSec = 5;
+    uint32 toHour = 6;
+    uint32 toMinute = 7;
+    uint32 toSec = 8;
+}
+
+message ActionInDeviceFactoryRestore {
+}
+
+message ActionOutDeviceFactoryRestore {
+}
+
+enum Operation {
+    START = 0;
+    PAUSE = 1;
+    RESUME = 2;
+    STOP = 3;
+}
+
+enum OperationReturn {
+    SUCCESS = 0;
+    BUSY = 1;
+    FAULT = 2;
+}
+
+message ActionInCleanUp {
+    Operation mode = 1;
+}
+
+message ActionOutCleanUp {
+    OperationReturn code = 1;
+}
+
+message ActionInCatToiletSandChange {
+    Operation mode = 1;
+}
+
+message ActionOutCatToiletSandChange {
+    OperationReturn code = 1;
+}
+
+message ActionInCatSandSmoothing {
+    Operation mode = 1;
+}
+
+message ActionOutCatSandSmoothing {
+    OperationReturn code = 1;
+}
+
+message EventAfterUsingTheToilet {
+    uint32 id = 1;
+    uint32 weight = 2; //unit:g
+    uint32 duration = 3; //unit:s
+}
+
+message EventAutoCleanupStart {
+}
+
+message EventAutoCleanupEnd {
+}
+
+message EventStartRegularCleaning {
+}
+
+message EventEndRegularCleaning {
+}
+
+message EventCatNear {
+}
+
+message EventCatLeaves {
+}
+
+message EventManualCleanupEnd {
+}
+
+message EventSandChangeEnd {
+}
+
+message EventSmoothingEnd {
+}
+
+message EventWeightSensorFault {
+}
+
+message EventMotorFault {
+}
+
+message EventCoverOpen {
+}
+
+message EventRollerNotInPlace {
+}
+
+message Properties {
+    JobStatus jobStatus = 1;
+    CatToiletMode catToiletMode = 2;
+    CatToiletFaultCode catToiletFaultCode = 3;
+    AutoCleanup autoCleanup = 4;
+    uint32 weight = 5; //unit:g
+    CatToiletCatStatus catToiletCatStatus = 6;
+    repeated ArrayNode catInfo = 7;
+    uint32 theNumberOfToiletVisitsToday = 8;
+    bool childLockEnabled = 9;
+    NoDisturbingPeriod noDisturbingPeriod = 10;
+    // action deviceFactoryRestore(ActionInDeviceFactoryRestore) returns (ActionOutDeviceFactoryRestore) = 11;
+    // action cleanUp(ActionInCleanUp) returns (ActionOutCleanUp) = 12;
+    // action catToiletSandChange(ActionInCatToiletSandChange) returns (ActionOutCatToiletSandChange) = 13;
+    // action catSandSmoothing(ActionInCatSandSmoothing) returns (ActionOutCatSandSmoothing) = 14;
+    // event afterUsingTheToilet(EventAfterUsingTheToilet) = 15;
+    // event autoCleanupStart(EventAutoCleanupStart) = 16;
+    // event autoCleanupEnd(EventAutoCleanupEnd) = 17;
+    // event startRegularCleaning(EventStartRegularCleaning) = 18;
+    // event endRegularCleaning(EventEndRegularCleaning) = 19;
+    // event catNear(EventCatNear) = 20;
+    // event catLeaves(EventCatLeaves) = 21;
+    // event manualCleanupEnd(EventManualCleanupEnd) = 22;
+    // event sandChangeEnd(EventSandChangeEnd) = 23;
+    // event smoothingEnd(EventSmoothingEnd) = 24;
+    bool weightIsSensed = 25;
+    // event weightSensorFault(EventWeightSensorFault) = 26;
+    // event motorFault(EventMotorFault) = 27;
+    // event coverOpen(EventCoverOpen) = 28;
+    // event rollerNotInPlace(EventRollerNotInPlace) = 29;
+    NoDisturbingPeriod indicatorLightOffPeriod = 30;
+    bool indicatorLightEnabled = 31;
+}

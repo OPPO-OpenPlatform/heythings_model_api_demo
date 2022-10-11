@@ -1,0 +1,42 @@
+/**
+ * Copyright (c) 2021-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file cloudMedia.proto
+ * @brief cloudMedia service proto
+ * @version 0.1
+ * @date 2022-1-12
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+package iot.service.cloudMedia;
+option objc_class_prefix = "Iot_Service_CloudMedia_";
+
+message ActionInOneTouchCall {
+  /*
+   * 设备本地超时时间大于云端超时时间
+   * 设备本地超时时间内忽略按键触发
+   */
+  uint32 timeout = 1; //unit:s 呼叫超时时间
+  /*
+   * 一键通话先设备发起 拨打记录事件，回调成功后发起云端一键呼叫方法，填入
+   * 拨打记录事件 UUID, 用于云端进行关联，缩略图展示
+   */
+  uint64 eventUuid = 2;
+}
+
+message ActionOutOneTouchCall {
+  enum Code {
+    SUCCESS = 0; //接听成功
+    NOT_CONFIGURED = 1; //未设置呼叫对象
+    TIMEOUT_NO_ANSWER = 2; //对方超时无应答，在超时时间内，云端重试
+    REFUSE = 3; //对方拒绝
+    BUSY = 4; //对方正忙
+  }
+  Code code = 1;
+}
+
+message Properties {
+  // action oneTouchCall(ActionInOneTouchCall) returns (ActionOutOneTouchCall) = 1;
+}

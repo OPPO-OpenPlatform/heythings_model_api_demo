@@ -1,0 +1,74 @@
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.cloudNetManager;
+option objc_class_prefix = "Iot_Service_CloudNetManager_";
+
+message MeshSubNet {
+    uint32 netIdx = 1;
+    bytes  netKey = 2;
+}
+
+message MeshAppkey {
+    uint32 appIdx = 1;
+    uint32 netIdx = 2;
+    bytes  appkey = 3;
+}
+
+message MeshNodeInfo {
+    uint32 primaryElemAddr = 1;
+    uint32 elemCount = 2; 
+    bytes uuid = 3;
+    bytes devKey = 4;
+}
+
+message ActionInApplyForMeshNodeAddr {
+    uint32 count = 1;
+}
+
+message ActionOutApplyForMeshNodeAddr {
+    uint32 start = 1;
+    uint32 count = 2;
+}
+
+message ActionInGetBeaconSubDeviceOfflineThreshold{
+    repeated string pid = 1;
+}
+
+message ActionOutGetBeaconSubDeviceOfflineThreshold{
+    message ThresholdValue {
+        string pid = 1;
+        uint32 offlineThreshold = 2;
+    }
+
+    repeated ThresholdValue value = 1; // beacon等非连接子设备离线判断超时时间，单位：秒
+}
+
+message GroupControl {
+    uint32 groupAddress = 1;
+    uint32 bleMeshGroupAddress = 2;
+    repeated uint32 devAddress = 3;
+}
+
+message ActionInGetDomainBeaconKey{
+    uint64 domainId = 1;
+}
+
+message ActionOutGetDomainBeaconKey{
+    bytes domainBeaconKey = 1; // the aes key used in ble beacon encrypt, 128bit random number
+    bytes domainBeaconIv = 2;  // 96bit random number
+}
+
+message Properties {
+    repeated ArrayNode meshSubNet = 1;
+    repeated ArrayNode meshAppkey = 2;
+    uint32 meshIvIndex = 3;
+    repeated ArrayNode meshNodeInfo = 4; 
+    // action applyForMeshNodeAddr(ActionInApplyForMeshNodeAddr) returns (ActionOutApplyForMeshNodeAddr) = 5;
+    // action getBeaconSubDeviceOfflineThreshold(ActionInGetBeaconSubDeviceOfflineThreshold) returns (ActionOutGetBeaconSubDeviceOfflineThreshold) = 6;
+    repeated ArrayNode groupControl = 7;
+    // action getDomainBeaconKey(ActionInGetDomainBeaconKey) returns (ActionOutGetDomainBeaconKey) = 8;
+}
+

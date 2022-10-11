@@ -1,0 +1,209 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file television.proto
+ * @brief television service proto
+ * @version 0.5
+ * @date 2020-10-14
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.television;
+option objc_class_prefix = "Iot_Service_Television_";
+ 
+ enum EnumSourceInput{
+    VGA = 0;
+    USB1 = 1;  
+    USB2 = 2;
+    HDMI1 = 3;
+    HDMI2 = 4;
+    NETWORK = 5;
+    AV = 6;
+    SD_CARD = 7;
+ }
+
+ message Channel{
+    uint32 channelID = 1;
+    string channelName = 2;
+ }
+
+ message ActionInGetPictureList{
+   uint64 fromTime = 1;
+   uint64 toTime = 2;
+   uint32 count = 3;
+ }
+ 
+ message ActionOutGetPictureList{
+   message PictureInfo{
+      string fileName = 1;
+      uint64 captureTime = 2;
+   }
+
+   uint32 totalCount = 1;
+   repeated PictureInfo pictureInfo = 2;
+ }
+
+ message ActionInGetRecordList{
+   uint64 fromTime = 1;
+   uint64 toTime = 2;
+   uint32 recordCount = 3;
+ }
+ 
+ message ActionOutGetRecordList{
+   message PictureInfo{
+      message RecordPoint{
+         enum EnumRecordType{
+            PICTURE_CHANGE = 0;
+            CRY = 1;
+            STAYING_DOORWAY = 2;
+            PASSING_BY_DOOR = 3;
+            HUMAN_MOTION = 4;
+            ANIMAL_MOTION = 5;
+            CAT_MOTION = 6;
+            DOG_MOTION = 7;
+         }
+         
+         EnumRecordType recordType = 1;
+         uint64 characteristicPoint = 2;
+      }
+
+      string recordFileName = 1;
+      string thumbnailFileName = 2;
+      uint64 recordStartTime = 3;
+      uint32 recordElapsedTime = 4;
+      bool autoDeleteEnabled = 5;
+      repeated RecordPoint recordPoint = 6;
+   }
+
+   uint32 totalRecordCount = 1;
+   repeated PictureInfo pictureInfo = 2;
+ }
+
+ message EventRecordNotify{
+    enum EnumMediaType{
+       PICTURE = 0;
+       AUDIO = 1;
+       VIDEO = 2;
+    }
+
+    string fileName = 1;
+    EnumMediaType mediaType = 2;
+ }
+
+ message ActionInDelRecordInfo{
+    repeated string fileName = 1;
+ }
+
+ message ActionOutDelRecordInfo{
+
+ }
+
+ message ActionInDelPictureInfo{
+    repeated string fileName = 1;
+ }
+
+ message ActionOutDelPictureInfo{
+
+ }
+
+ enum Status{
+    IDEL = 0;
+    WORKING = 1;
+ }
+
+ message ActionInChannelUp{
+
+ }
+
+ message ActionOutChannelUp{
+
+ }
+
+ message ActionInChannelDown{
+
+ }
+
+ message ActionOutChannelDown{
+
+ }
+
+ message EventChannelListChange{
+
+ }
+ 
+ message EventParentControlsModeStart{
+ 
+ }
+ 
+ message EventParentControlsModeStop{
+ 
+ }
+ 
+
+ message ActionInGetParentControlPlaylist{
+
+ }
+
+ message ActionOutGetParentControlPlaylist{
+    message Playlist{
+       string contentName = 1;
+       uint32 process =2; //百分比
+       string playTime = 3; //YYYY-MM-DD hh-mm-ss
+    }
+
+    repeated Playlist playlist = 1;
+ }
+
+ enum Sleep {
+   S_OFF = 0;
+   S_ON = 1;
+ }
+ 
+  message ActionInGetParentControlTime{
+
+ }
+ 
+  message ActionOutGetParentControlTime{
+     uint32 parentControlTime = 1;
+     uint32 totalParentControlTime = 2; //default value ：0
+ }
+
+  message ActionInRemainInParentControl{
+
+ }
+ 
+  message ActionOutRemainInParentControl{
+
+ }
+ 
+ message Properties{
+   bool power = 1;
+   Sleep sleep = 2;
+   uint32 soundVolume = 3;
+   bool speechControlEnabled = 4;
+   EnumSourceInput sourceInput = 5;
+   Status status = 6;
+   bool parentControlsEnabled = 7;
+   uint32 singleWatchingTvTime = 8;
+   bool mute = 9;
+   string currentChannel = 10;
+   repeated ArrayNode channel = 11;
+   // action channelUp(ActionInChannelUp) returns (ActionOutChannelUp) = 12;
+   // action channelDown(ActionInChannelDown) returns (ActionOutChannelDown) = 13;
+   // action getParentControlPlaylist(ActionInGetParentControlPlaylist) returns (ActionOutGetParentControlPlaylist)= 14;
+   // action getPictureList(ActionInGetPictureList) returns (stream ActionOutGetPictureList) = 15;  //由被动端发起正常结束事务
+   // action getRecordList(ActionInGetRecordList) returns (stream ActionOutGetRecordList) = 16;  //由被动端发起正常结束事务
+   // action delRecordInfo(ActionInDelRecordInfo) returns (ActionOutDelRecordInfo) = 17;
+   // action delPictureInfo(ActionInDelPictureInfo) returns (ActionOutDelPictureInfo) = 18;
+   // event recordNotify(EventRecordNotify) = 19;
+   // event channelListChange(EventChannelListChange) = 20;
+   // event parentControlsModeStart(EventParentControlsModeStart) = 21;
+   // event parentControlsModeStop (EventParentControlsModeStop) = 22;
+   // action getParentControlTime(ActionInGetParentControlTime) returns (ActionOutGetParentControlTime) = 23;
+   // action remainInParentControl(ActionInRemainInParentControl) returns (ActionOutRemainInParentControl) = 24;
+ }
+

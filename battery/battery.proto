@@ -1,0 +1,64 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file battery.proto
+ * @brief battery service proto
+ * @version 0.3
+ * @date 2022-09-16
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ package iot.service.battery;
+option objc_class_prefix = "Iot_Service_Battery_";
+
+ message BatteryInfo{
+    uint32 capacity = 1;
+    uint32 voltage = 2;
+    uint32 electricEngergy = 3;
+ }
+
+ message EventLowBattery{
+    uint32 batteryLevel = 1;
+ }
+
+ message ActionInStartCharge{
+
+ }
+
+ message ActionOutStartCharge{
+
+ }
+
+ message ActionInStopCharge{
+    
+ }
+
+ message ActionOutStopCharge{
+    
+ }
+ 
+ message EventChargingEnd{
+ 
+ }
+ 
+message EventChargingStart {
+}
+
+ message Properties{
+    uint32 batteryLevel = 1;
+    bool batteryCharging = 2;
+    uint32 chargeTimeRemaining = 3;
+    uint32 batteryThreshold = 4;
+    BatteryInfo batteryInfo = 5;
+    uint32 stopChargingThreshold = 6;
+    // action startCharge(ActionInStartCharge) returns (ActionOutStartCharge) = 7;
+    // action stopCharge(ActionInStopCharge) returns (ActionOutStopCharge) = 8;
+    // event lowBattery(EventLowBattery) = 9;
+    bool lowBatteryStatus = 10;
+    // event chargingEnd(EventChargingEnd) = 11;
+    // event chargingStart(EventChargingStart) = 12;
+    bool readyToCharge = 13; //已准备可以充电，如扫地机在充电桩上，电池充电线已接入
+ }
+

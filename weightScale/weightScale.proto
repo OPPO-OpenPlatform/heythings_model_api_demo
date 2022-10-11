@@ -1,0 +1,81 @@
+/**
+ * Copyright (c) 2008-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file weightScale.proto
+ * @brief weightScale service proto
+ * @version 0.1
+ * @date 2020-5-31
+ * @author Arrow.Lu
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.weightScale;
+option objc_class_prefix = "Iot_Service_WeightScale_";
+
+enum JobStatus {
+    STANDBY_STATUS = 0;
+    PREACTIVE_STATUS = 1;
+    WORK_STATUS = 2;
+    PAUSE_STATUS = 3;
+    CANCEL_STATUS = 4;
+    COMPLETE_STATUS = 5;
+}
+
+message WeighingMeasureResults {
+    uint64 utc = 1;
+    uint32 weight = 2;
+    uint32 impedance = 3;
+}
+
+enum Gender {
+    UNKNOWN = 0;
+    MALE = 1;
+    FEMALE = 2;
+}
+
+message Age {
+    uint32 year = 1;
+    uint32 moon = 2;
+    uint32 day = 3;
+}
+
+message WeightScaleUserList {
+    uint32 userId = 1;
+    uint32 weight = 2;
+    uint32 targetWeight = 3;
+    uint32 bodyLength = 4;
+    Gender gender = 5;
+    Age age = 6;
+}
+
+enum WeightUnit {
+    KG = 0;
+    CATTY = 1;
+}
+
+message ActionInGetOfflineBodyFatScaleRecords {
+    uint64 beginTime = 1; // unix time, unit:s
+}
+
+message ActionOutGetOfflineBodyFatScaleRecords {
+    message Data {
+        uint64 utc = 1;
+        uint32 userId = 2;
+        uint32 weight = 3;
+        uint32 impedance = 4;
+    }
+    repeated Data data = 1;
+}
+
+message Properties {
+    JobStatus jobStatus = 1;
+    WeighingMeasureResults weighingMeasureResults = 2;
+    uint32 currentUserId = 3;
+    repeated ArrayNode weightScaleUserList = 4;
+    WeightUnit weightUnit = 5;
+    bool measureBodyFatEnabled = 6;
+    //action getOfflineBodyFatScaleRecords(ActionInGetOfflineBodyFatScaleRecords) returns (stream ActionOutGetOfflineBodyFatScaleRecords) = 7;
+}

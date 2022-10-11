@@ -1,0 +1,34 @@
+/**
+ * Copyright (c) 2021-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file projector.proto
+ * @brief projector service proto
+ * @version 0.1
+ * @date 2020-10-1
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+package iot.service.projector;
+option objc_class_prefix = "Iot_Service_Projector_";
+
+enum EnumSourceInput{
+    VGA = 0;
+    USB1 = 1;
+    USB2 = 2;
+    HDMI1 = 3;
+    HDMI2 = 4;
+    NETWORK = 5;
+    AV = 6;
+    SD_CARD = 7;
+}
+
+message Properties{
+    bool power = 1;
+    EnumSourceInput sourceInput = 2;
+    bool speechControlEnabled = 3;
+    bool gestureControlEnabled = 4;
+    bool eco = 5;
+    uint32 soundVolume = 6; //音量等级
+}

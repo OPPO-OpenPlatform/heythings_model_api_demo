@@ -1,0 +1,188 @@
+/**
+ * Copyright (c) 2008-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file smartLock.proto
+ * @brief smartLock service proto
+ * @version 0.3
+ * @date 2022-07-04
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.smartLock;
+option objc_class_prefix = "Iot_Service_SmartLock_";
+
+enum LockMethod {
+    PASSWORD = 0;
+    FINGERPRINT = 1;
+    CARD = 2;
+    IRIS = 3;
+    FACE = 4;
+    ONETIME_PASSWORD = 5; //一次性密码
+}
+
+enum Code {
+    SUCCESS = 0;
+    // IncorrectTimestamp: 时间戳不正确
+    INCORRECT_TIMESTAMP = 1;
+    // DecryptionFailed: 数据解密失败
+    DECRYTION_FAILED = 2;
+    // 请求参数不正确
+    ILLEGAL_PARAM = 3;
+    // 其它设备内部错误
+    INTERNAL_ERROR = 4;
+    // PinAlreadyCreated： PIN码已创建
+    PIN_ALREADY_CREATED = 5;
+    // MaxAuthenticateLimitReached: 最大PIN码认证限制
+    MAX_AUTHENTICATE_LIMIT_REACHED = 6;
+    // SecurityPinNotCreated: PIN码未创建
+    PIN_NOT_CREATED = 7;
+}
+
+message LockUserList {
+    enum UserType {
+        ADMINISTRATOR = 0; //管理员
+        NORMALUSER = 1; //普通用户
+    }
+    UserType userType = 1;
+    LockMethod lockMethod = 2;
+    string number = 3; //如密码01， 这里填“01”，用字符串表达位数
+}
+
+message ActionInEcJpakeStart {
+    bytes clientRoundOne = 1;
+}
+
+message ActionOutEcJpakeStart {
+    Code code = 1;
+    bytes serverRoundOne = 2;
+    bytes serverRoundTwo = 3;
+}
+
+// 参考流程 http://iot.page.gitlab.os.adc.com/HeyThings_Protocol_Internel/device/lock/keys.html
+message ActionInEcJpakeGetDeviceKey {
+    bytes clientRoundOne = 1;
+    bytes clientRoundTwo = 2;
+    // AES-128-CCM Encrypted iot.proto.smartLock.GetKeysRequest
+    bytes encryptedReq = 3;
+    bytes iv = 4;
+}
+
+message ActionOutEcJpakeGetDeviceKey {
+    Code code = 1;
+    // AES-128-CCM Encrypted iot.proto.smartLock.GetKeysResponse
+    bytes encryptedResponse = 2;
+    bytes iv = 3;
+    bytes label = 4; //给app记录，用于后续派生加密秘钥用
+}
+
+message EventLock {
+}
+
+message EventUnlock {
+    enum UserType {
+        ADMINISTRATOR = 0; //管理员
+        NORMALUSER = 1; //普通用户
+        TEMPORARYUSER = 2; //临时用户
+    }
+    message UnlockOutside {
+        message Detail {
+            UserType userType = 1;
+            uint32 userId = 2; //lockUserList 里 arrayNode id
+            LockMethod method = 3;
+        }
+        repeated Detail detail = 1;
+    }
+
+    message UnlockInside {
+        enum Method {
+            SCENSING = 0; //感应开门
+            BUTTON = 1; //按键开门
+        }
+        Method method = 1;
+    }
+
+    message Mechanical {
+    }
+    oneof doorOpenDirection {
+        Mechanical mechanical = 1; // 机械开锁
+        UnlockOutside unlockOutside = 2; //门外开锁
+        UnlockInside unlockInside = 3; //门内开锁
+    }
+}
+
+message EventAntiprying {
+}
+
+message EventAntitheft {
+}
+
+message EventDoorNotClosed {
+}
+
+message EventUnlocked {
+}
+
+message EventArmingTrigger {
+}
+
+message ActionInCreateSecurityPin {
+    // AES-128-CCM encrypted iot.proto.smartLock.CreateSecurityPinReq
+    bytes encryptedReq = 1;
+    uint64 ts = 2;
+    bytes iv = 3;
+    bytes label = 4;
+}
+
+message ActionOutCreateSecurityPin {
+    Code code = 1;
+    uint64 lastUpdateTime = 2; //unit: ms 创建 SecurityPin 的时间，同时更新securityPinUpdateTime属性
+}
+
+message ActionInSetSecurityPin {
+    // AES-128-CCM encrypted iot.proto.smartLock.SetSecurityPinReq
+    bytes encryptedReq = 1;
+    uint64 ts = 2;
+    bytes iv = 3;
+    bytes label = 4;
+}
+
+message ActionOutSetSecurityPin {
+    Code code = 1;
+    // AES-128-CCM encrypted iot.proto.smartLock.SetSecurityPinResp
+    bytes encryptedResp = 2;
+}
+
+message EventDoorbellRinging {
+    string recordUrl = 1;
+    string thumbnaiUrl = 2;
+}
+
+message EventStartArming {
+}
+
+message Properties {
+    bool lockStatus = 1; //锁状态
+    uint32 soundVolume = 2; //音量设置
+    repeated ArrayNode lockUserList = 3; //用户列表
+    bool lockDoubleVerifyEnabled = 4; //锁双重验证
+    // unix utc time, unit: ms
+    uint64 securityPinUpdateTime = 5;
+    // action ecJpakeGetDeviceKey(ActionInEcJpakeGetDeviceKey) returns (ActionOutEcJpakeGetDeviceKey) = 8;
+    // event lock(EventLock) = 9;
+    // event unlock(EventUnlock) = 10;
+    // event antiprying(EventAntiprying) = 11;
+    // event antitheft(EventAntitheft) = 12;
+    // event doorNotClosed(EventDoorNotClosed) = 13;
+    // event unlocked(EventUnlocked) = 14;
+    // event armingTrigger(EventArmingTrigger) = 15;
+    // action createSecurityPin(ActionInCreateSecurityPin) returns (ActionOutCreateSecurityPin) = 16;
+    // action setSecurityPin(ActionInSetSecurityPin) returns (ActionOutSetSecurityPin) = 17;
+    bool supportTemporaryPassword = 18;
+    // action ecJpakeStart(ActionInEcJpakeStart) returns (ActionOutEcJpakeStart) = 19;
+    // event doorbellRinging(EventDoorbellRinging) = 20;
+    // event startArming(EventStartArming) = 21;
+}

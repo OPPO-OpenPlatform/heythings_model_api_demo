@@ -1,0 +1,97 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file doubleModeChiller.proto
+ * @brief doubleModeChiller service proto
+ * @version 0.2
+ * @date 2020-9-27
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.doubleModeChiller;
+option objc_class_prefix = "Iot_Service_DoubleModeChiller_";
+
+
+ message EventInvalidAlarm{
+
+ }
+ 
+ message Properties{
+   uint32 ggOpening1 = 1;
+   uint32 ggOpening1Peer = 2;
+   uint32 ggOpening2 = 3;
+   uint32 ggOpening2Peer = 4;
+   uint32 motorCoilTemp1 = 5;
+   uint32 motorCoilTemp1Peer = 6;
+   uint32 conAppTemp = 7;
+   uint32 conAppTempPeer = 8;
+   uint32 eaTemp = 9;
+   uint32 eaTempPeer = 10;
+   uint32 averageCurrent = 11;
+   uint32 averageCurrentPeer = 12;
+   uint32 acOilPressure = 13;
+   uint32 acOilPressurePeer = 14;
+   uint32 acRunningTime = 15;
+   uint32 acRunningTimePeer = 16;
+   uint32 oilTemp = 17;
+   uint32 oilTempPeer = 18;
+   uint32 evaAppTemp = 19;
+   uint32 evaAppTempPeer = 20;
+   uint32 acStartUpNum = 21;
+   uint32 acStartUpNumPeer = 22;
+   uint32 chwSupplyWaterTemp = 23;
+   uint32 chwReturnWaterTemp = 24;
+   uint32 conSatTemp = 25;
+   uint32 conSatTempPeer = 26;
+   uint32 conSatPres = 27;
+   uint32 conSatPresPeer = 28;
+   uint32 cwSupplyWaterTemp = 29;
+   uint32 cwReturnWaterTemp = 30;
+   uint32 runningLoad = 31;
+   uint32 runningLoadPeer = 32;
+   uint32 evaSatTemp = 33;
+   uint32 evaSatTempPeer = 34;
+   uint32 evaSatPres = 35;
+   uint32 evaSatPresPeer = 36;
+   uint32 l1Current = 37;
+   uint32 l1CurrentPeer = 38;
+   uint32 l2Current = 39;
+   uint32 l2CurrentPeer = 40;
+   uint32 l3Current = 41;
+   uint32 l3CurrentPeer = 42;
+   bool conFlowSta = 43;
+   bool conFlowStaPeer = 44;
+   bool evaFlowSta = 45;
+   bool evaFlowStaPeer = 46;
+   uint32 autoTurnOnTemp = 47;
+   uint32 autoTurnOffTemp = 48;
+   uint32 coolingCapacity = 49;
+   uint32 cop = 50;
+   uint32 cwTargetReturnTemp = 51;
+   uint32 supplyWaterRate = 52;
+   uint32 runningPower = 53;
+   uint32 runningPowerPeer = 54;
+   bool mannulAutoSta = 55;
+   uint32 chwTargetSupplyTemp = 56;
+   uint32 chwTargetSupplyTempPeer = 57;
+   uint32 abVoltage = 58;
+   uint32 abVoltagePeer = 59;
+   uint32 bcVoltage = 60;
+   uint32 bcVoltagePeer = 61;
+   uint32 caVoltage = 62;
+   uint32 caVoltagePeer = 63;
+   uint32 maxRunningLoad = 64;
+   uint32 maxRunningLoadPeer = 65;
+   uint32 oilPumpPres = 66;
+   uint32 oilPumpPresPeer = 67;
+   uint32 oilTankPres = 68;
+   uint32 oilTankPresPeer = 69;
+   uint32 hVibrationValue = 70;
+   uint32 vVibrationValue = 71;
+   // event invalidAlarm(EventInvalidAlarm) = 72;
+   bool power = 73;
+   bool faultSta = 74;
+
+ }

@@ -1,0 +1,323 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file robotCleaner.proto
+ * @brief robotCleaner service proto
+ * @version 0.7
+ * @date 2022-9-14
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+import "common.proto";
+
+package iot.service.robotCleaner;
+option objc_class_prefix = "Iot_Service_RobotCleaner_";
+
+enum OperationMode{
+  STOP = 0;
+  PAUSE = 1;
+  RESUME = 2;
+  CANCEL = 3;
+  START = 4;
+}
+
+enum RobotCleanMode{
+  RANDOM = 0; //随机清扫
+  PLANNING = 1; //规划清扫
+  SECTORBASED = 2; //分区清扫
+  SPOT = 3; //原地清扫
+  ALONGMARGIN = 4; //沿边清扫
+  SPIRAL = 5; //螺旋清扫
+  DESIGNATED_POINT = 6; //定点清扫
+}
+
+enum RobotSuctionLevel{
+  AUTO_LEVEL = 0;
+  LEVEL_ONE = 1;
+  LEVEL_TWO = 2;
+  LEVEL_THREE = 3;
+  LEVEL_FOUR = 4;
+}
+
+message ActionInSoundAlarm{
+
+}
+
+message ActionOutSoundAlarm{
+
+}
+
+message ActionInRobotHoming{
+
+}
+
+message ActionOutRobotHoming{
+
+}
+
+message ActionInStopHoming{
+
+}
+
+message ActionOutStopHoming{
+
+}
+
+enum RobotJobStatus{
+  IDLE = 0;        //待机中
+  HOMING = 1;      //回充中
+  MOVING = 2;      //扫地中
+  CLEANING_PAUSED = 3; //清扫暂停中
+  MAPPING = 4;     //绘制地图中
+  CLEANING = 5;    //清洗中
+  REMOTE_CONTROL = 6; //遥控中
+  RECHARGING_PAUSED = 7; //回充暂停中
+}
+
+message ActionInMotionControl{
+  enum MotionDirection{
+      STOP = 0;
+      UP = 1;
+      DOWN = 2;
+      LEFT = 3;
+      RIGHT = 4;
+      FORWARD = 5;
+      BACK = 6;
+  }
+
+  MotionDirection motionDirection = 1;
+}
+
+message ActionOutMotionControl{
+
+}
+
+message ActionInSideBrushReset{
+
+}
+
+message ActionOutSideBrushReset{
+
+}
+
+message ActionInRollBrushReset{
+
+}
+
+message ActionOutRollBrushReset{
+
+}
+
+message ActionInHepaReset{
+
+}
+
+message ActionOutHepaReset{
+
+}
+
+message ActionInFilterReset{
+
+}
+
+message ActionOutFilterReset{
+
+}
+
+message EventSideBrushReplacement{
+
+}
+
+message EventRollBrushReplacement{
+
+}
+
+message EventHepaReplacement{
+
+}
+
+message EventFilterReplacement{
+
+}
+
+message EventDustBoxFull{
+
+}
+
+message EventOverloadProtection{
+
+}
+
+message NoDisturbingPeriod{
+  bool status = 1;
+  uint32 week = 2;
+  uint32 fromHour = 3;
+  uint32 fromMinute = 4;
+  uint32 fromSec = 5;
+  uint32 toHour = 6;
+  uint32 toMinute = 7;
+  uint32 toSec = 8;
+}
+
+enum RobotSupplyWaterRate{
+  AUTO_RATE = 0;
+  RATE_ONE = 1;
+  RATE_TWO = 2;
+  RATE_THREE = 3;
+}
+
+message Rectangle {
+    int32 x0 = 1;
+    int32 y0 = 2;
+    int32 x1 = 3;
+    int32 y1 = 4;
+}
+
+enum ZoneCode {
+    SET_SUCCESS = 0;
+    MAP_DOES_NOT_EXIST = 1; //地图不存在
+    CANNOT_BE_SET_IN_FORBIDDEN_ZONE = 2; //禁区内不可设置
+    CHARGING_PILES_NOT_ALLOWED_IN_FORBIDDEN_ZONE = 3; //充电桩不可在禁区内
+}
+
+message ActionInRectangleCleanZoneSeting {
+    repeated Rectangle zone = 1;
+}
+
+message ActionOutRectangleCleanZoneSeting {
+    ZoneCode code = 1;
+}
+
+message RectangleCleanZoneSetingDetail {
+    Rectangle zone = 1;
+}
+
+message ActionInRectangleForbiddenZoneSeting {
+    repeated Rectangle zone = 1;
+}
+
+message ActionOutRectangleForbiddenZoneSeting {
+    ZoneCode code = 1;
+}
+
+message RectangleForbiddenZoneSetingDetail {
+    Rectangle zone = 1;
+}
+
+message ActionInInSituClean {
+}
+
+message ActionOutInSituClean {
+    enum Code {
+        SUCCESS = 0;
+        IN_CHARGING_PILE = 1; //在充电桩，无法执行
+        BUSY = 2;
+    }
+    Code code = 1;
+}
+
+enum CleanCode {
+    REACH_SUCCESS = 0;
+    ROBOT_BUSY = 1;
+    ILLEGAL_DESTINATION = 2; //非法目的地
+    FAILED_TO_PLAN_ROUTE = 3; //规划路线失败
+    TASK_TIMEOUT = 4;
+}
+
+message ActionInDesignatedPointClean {
+    uint32 timeout = 1; //unit:s 该方法超时时间
+    int32 x = 2;
+    int32 y = 3;
+}
+
+message ActionOutDesignatedPointClean {
+    CleanCode code = 1;
+}
+
+message ActionInDesignatedRoomClean {
+    uint32 timeout = 1; //unit:s 该方法超时时间
+    uint32 roomId = 2;
+}
+
+message ActionOutDesignatedRoomClean {
+    CleanCode code = 1;
+}
+
+message ActionInRobotMapReset {
+}
+
+message ActionOutRobotMapReset {
+    ZoneCode code = 1;
+}
+
+message RoomCleanSeting {
+    string name = 1;
+    RobotSuctionLevel robotSuctionLevel = 2;
+    RobotSupplyWaterRate robotSupplyWaterRate = 3;
+    uint32 cleanTimes = 4;
+}
+
+message EventStartRegularCleaning {
+}
+
+message DesignatedPointCleanSetingDetail {
+    int32 x = 1;
+    int32 y = 2;
+}
+
+message Properties{
+  bool power = 1;
+  OperationMode operationMode = 2; //操作方式
+  RobotJobStatus robotJobStatus = 3; //扫地机工作状态
+  RobotCleanMode robotCleanMode = 4; //扫地机清扫模式
+  RobotSuctionLevel robotSuctionLevel = 5; //扫地机吸力等级
+  uint32 soundVolume = 6; //音量等级
+  // action soundAlarm(ActionInSoundAlarm) returns(ActionOutSoundAlarm) = 7; //声音告警，找回机器
+  // action robotHoming(ActionInRobotHoming) returns (ActionOutRobotHoming) = 8; //开始回充
+  // action stopHoming(ActionInStopHoming) returns(ActionOutStopHoming) = 9; //停止回充
+  // action motionControl(ActionInMotionControl) returns (ActionOutMotionControl) = 10; //运动控制
+  uint32 operationTime = 11; //本次工作时间
+  uint32 remainTime = 12; //本次剩余工作时间
+  uint32 cleanArea = 13; //本次清扫面积
+  uint32 processingPercentage = 14; //任务完成百分比
+  uint32 totalCleanTime = 15; //累计清扫时间
+  uint32 totalCleanArea = 16; //累计清扫面积
+  uint32 totalCycle = 17; //累计清扫次数
+  uint32 sideBrushLeftTime = 18;
+  uint32 sideBrushLifeTime = 19;
+  uint32 rollBrushLeftTime = 20;
+  uint32 rollBrushLifeTime = 21;
+  uint32 hepaLeftTime = 22;
+  uint32 hepaLifeTime = 23;
+  uint32 filterLeftTime = 24;
+  uint32 filterLiftTime = 25;
+  // action sideBrushReset(ActionInSideBrushReset) returns (ActionOutSideBrushReset) = 26;
+  // action rollBrushReset(ActionInRollBrushReset) returns (ActionOutRollBrushReset) = 27;
+  // action hepaReset(ActionInHepaReset) returns (ActionOutHepaReset) = 28;
+  // action filterReset(ActionInFilterReset) returns (ActionOutFilterReset) = 29;
+  // event sideBrushReplacement(EventSideBrushReplacement) = 30;
+  // event rollBrushReplacement(EventRollBrushReplacement) = 31;
+  // event hepaReplacement(EventHepaReplacement) = 32;
+  // event filterReplacement(EventFilterReplacement) = 33;
+  // event dustBoxFull(EventDustBoxFull) = 34;
+  // event overloadProtection(EventOverloadProtection) = 35;
+  NoDisturbingPeriod noDisturbingPeriod = 36;
+  RobotSupplyWaterRate robotSupplyWaterRate = 37; //扫地机器人供水量
+  //地毯增压
+  bool carpetIncreasesSuction = 38;
+  // action rectangleCleanZoneSeting(ActionInRectangleCleanZoneSeting) returns (ActionOutRectangleCleanZoneSeting) = 39;
+  repeated ArrayNode rectangleCleanZoneSetingDetail = 40;
+  // action rectangleForbiddenZoneSeting(ActionInRectangleForbiddenZoneSeting) returns (ActionOutRectangleForbiddenZoneSeting) = 41;
+  repeated ArrayNode rectangleForbiddenZoneSetingDetail = 42;
+  reserved 43; //删除原地清扫方法
+  // action designatedPointClean(ActionInDesignatedPointClean) returns (ActionOutDesignatedPointClean) = 44;
+  // action designatedRoomClean(ActionInDesignatedRoomClean) returns (ActionOutDesignatedRoomClean) = 45;
+  // action robotMapReset(ActionInRobotMapReset) returns (ActionOutRobotMapReset) = 46;
+  repeated ArrayNode roomCleanSeting = 47;
+  uint32 currentMapId = 48;
+  // event startRegularCleaning(EventStartRegularCleaning) = 49;
+  DesignatedPointCleanSetingDetail designatedPointCleanSetingDetail = 50;
+  bool breakpointResumeEnabled = 51;
+}

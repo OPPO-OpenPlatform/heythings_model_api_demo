@@ -1,0 +1,26 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file chwPump.proto
+ * @brief chwPump service proto
+ * @version 0.1
+ * @date 2020-8-10
+ * @author lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.chwPump;
+option objc_class_prefix = "Iot_Service_ChwPump_";
+ 
+ message Properties{
+   bool power = 1;
+   bool mannulAutoSta = 2;
+   bool faultSta = 3;
+   uint32 freqSetting = 4;
+   uint32 freqFeedback = 5;
+   bool devAvailable = 6;
+   bool devAbnormalSta = 7;
+   bool waterFlowSta = 8;
+
+ }

@@ -1,0 +1,86 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file storage.proto
+ * @brief storage service proto
+ * @version 0.1
+ * @date 2020-3-31
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+
+ package iot.service.storage;
+option objc_class_prefix = "Iot_Service_Storage_";
+ 
+ message StorageInfo{
+   enum CardType{
+	   ROM = 0;
+	   SD = 1;
+	   MINI_SD = 2;
+	   TF = 3;
+	   USB_FLASH_DISK = 4;
+	   PCI_EXPRESS = 5;
+	   SMART_MEDIA = 6;
+	   COMPACT_FLASH = 7;
+	   XQD = 8;
+	   XD_PICTURE_CARD = 9;
+	   M2 = 10;
+   }
+
+   bool cardSlotStatus = 1;
+   CardType cardType = 2;
+   uint32 capacity = 3; // unit：kByte
+   uint32 usedCapacity = 4; // unit：kByte
+   bool removable = 5;
+   bool cardWorkStatus = 6; // Indicate whether the card is available or not 
+   bool storageSwitch = 7;  
+   uint32 spaceShortageThreshold = 8; // unit：kByte
+   uint32 availableCapacity = 9; // unit：kByte
+ }
+
+ enum StorageLocation{
+    CLOUD = 0;
+    LOCAL = 1;
+ }
+
+ message EventStorageShortage{
+    uint32 cardSlotNo = 1;
+    uint32 capacity = 2;
+    uint32 usedCapacity = 3;
+ }
+ 
+ message ActionInUninstallStorageCard{
+	uint32 cardSlotNo = 1;
+ }
+ 
+ message ActionOutUninstallStorageCard{
+    enum Code {
+        SUCCESS = 0;
+        FAILED = 1;
+    }
+    Code code = 1;
+ }
+
+ message ActionInFormatStorageCard{
+	uint32 cardSlotNo = 1;
+ }
+ 
+ message ActionOutFormatStorageCard{
+    enum Code {
+        SUCCESS = 0;
+        FAILED = 1;
+    }
+    Code code = 1;
+ }
+
+ message Properties{
+	repeated ArrayNode storageInfo = 1;
+	StorageLocation storageLocation = 2;
+	// event storageShortage(EventStorageShortage) = 3;
+	// action uninstallStorageCard(ActionInUninstallStorageCard) returns (ActionOutUninstallStorageCard) = 4;
+	// action formatStorageCard(ActionInFormatStorageCard) returns (ActionOutFormatStorageCard) = 5;
+ }
+

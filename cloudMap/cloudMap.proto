@@ -1,0 +1,95 @@
+/**
+ * Copyright (c) 2021-2022, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file cloudMap.proto
+ * @brief cloudMap service proto
+ * @version 0.5
+ * @date 2022-8-25
+ * @author Arrow Lu
+ */
+
+syntax = "proto3";
+
+package iot.service.cloudMap;
+option objc_class_prefix = "Iot_Service_CloudMap_";
+
+message ActionInUploadRouteMap{
+    message Start{
+        uint32 id = 1; //每份路径图唯一标识
+        uint32 maxPoints = 2; //最大点数
+    }
+    message Points{
+        message RawData{
+            repeated bytes point = 1; //数据点，不对数据格式进行描述
+        }
+        oneof dataType{
+            RawData rawData = 1;
+        }
+    }
+    message End{
+        uint32 operationTime = 1; //本次工作时间,单位秒
+        uint32 cleanArea = 2; //本次清扫面积,单位平方米
+        uint32 cleaningTimes = 3; //本次清扫次数
+        uint64 startCleaningTimestamp = 4; //单位ms, 本次清扫开始时间戳
+    }
+    oneof sendType{
+        Start start = 1;
+        Points points = 2;
+        End end = 3;
+    }
+}
+
+message ActionOutUploadRouteMap{
+}
+
+message ActionInUploadMap {
+    message CoordinatePoints {
+        uint32 x = 1;
+        uint32 y = 2;
+    }
+    message MapInfo {
+        //地图宽高
+        uint32 width = 1;
+        uint32 height = 2;
+        //地图精度，单位mm
+        uint32 resolution = 3;
+        //机器原点坐标
+        CoordinatePoints origin = 4;
+        //充电桩坐标
+        CoordinatePoints charge = 5;
+    }
+    message Room {
+        uint32 id = 1;
+        repeated CoordinatePoints point = 2;
+    }
+    message Save {
+        //地图唯一标识，设备根据实际保存份数，可覆盖上报，云端也是覆盖保存
+        uint32 map_id = 1;
+        // 房间信息，地图坐标系统一，如都用屏幕坐标系
+        repeated Room room = 2;
+    }
+    oneof sendType {
+        MapInfo info = 1;
+        //不定义具体数据内容，推荐用一个字节4个坐标点，加上lz4压缩算法
+        bytes coordinate = 2;
+        //设备不发送保存，云端不保存；云端保存根据map_id, app根据map_id拉取
+        Save save = 3; 
+    }
+}
+ 
+message ActionOutUploadMap {
+    enum Code {
+        SUCCESS = 0;
+    }
+    Code code = 1; //保存成功，没有成功设备要重传
+}
+
+message Properties{
+  // action uploadRouteMap(stream ActionInUploadRouteMap) returns (ActionOutUploadRouteMap) = 1; //由主动端发起正常结束事务
+  // action uploadMap(stream ActionInUploadMap) returns (ActionOutUploadMap) = 2; //由主动端发起正常结束事务
+  // 以下两个版本号用于云端通知客户端同步数据，由云端维护更新，一次清扫任务开始从0开始，之后每个事务结束更新保存一份路径/地图，并将版本号加1
+  // app每次进入控制页，本地版本号为0，且主动拉取一次路径/地图
+  // app判断本地版本号与这个属性不一致时或收到云端长连接通知该属性，从云端拉取路径/地图
+  uint32 routeMapSyncVer = 3; //路径图同步版本
+  uint32 mapSyncVer = 4; //地图同步版本
+}

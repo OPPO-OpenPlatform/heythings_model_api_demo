@@ -1,0 +1,265 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file playControl.proto
+ * @brief playControl service proto
+ * @version 0.3
+ * @date 2022-3-8
+ * @author Frank
+ */
+
+syntax = "proto3";
+
+package iot.service.playControl;
+option objc_class_prefix = "Iot_Service_PlayControl_";
+
+message ActionInNextTrack{
+
+}
+
+message ActionOutNextTrack{
+
+}
+
+message ActionInPreviousTrack{
+
+}
+
+message ActionOutPreviousTrack{
+
+}
+
+message ActionInStop{
+
+}
+
+message ActionOutStop{
+
+}
+
+message ActionInPlay{  //ssid is 5
+   string url = 1;
+}           
+
+message ActionOutPlay{
+
+}
+
+message ActionInPause{
+
+}
+
+message ActionOutPause{
+
+}
+
+message ActionInResume{
+
+}
+
+message ActionOutResume{
+
+}
+
+message ActionInRecordStart{
+
+}
+
+message ActionOutRecordStart{
+
+}
+
+message ActionInForward{         //ssid is 9
+   uint32 time = 1;
+}
+
+message ActionOutForward{
+
+}
+
+message ActionInRewind{          //ssid is 10
+   uint32 time = 1;
+}
+
+message ActionOutRewind {
+
+}
+
+message ActionInSearchPrevious{
+
+}
+
+message ActionOutSearchPrevious{
+
+}
+
+message ActionInSearchNext{
+
+}
+
+message ActionOutSearchNext{
+
+}
+
+message ActionInScreenCapture{
+
+}
+
+message ActionOutScreenCapture{
+    string fileName = 1;
+
+}
+
+message ActionInRecordEnd{
+
+}
+
+message ActionOutRecordEnd{
+    string thumbnailFileName = 1;
+
+}
+
+message ActionInDirectionKeyControl{
+   enum EnumKeyType{
+      UP = 0;
+      DOWN = 1;
+      LEFT = 2;
+      RIGHT = 3;
+   }
+
+   EnumKeyType keyType = 1;
+   uint32 cursorMovement = 2;
+ }
+
+ message ActionOutDirectionKeyControl{
+
+ }
+
+ message ActionInHomeKeyControl{
+
+ }
+
+ message ActionOutHomeKeyControl{
+
+ }
+
+ message ActionInReturnKeyControl{
+
+ }
+
+ message ActionOutReturnKeyControl{
+
+ }
+
+ message ActionInMenuKeyControl{
+
+ }
+
+ message ActionOutMenuKeyControl{
+
+ }
+
+ message ActionInSetKeyControl{
+
+ }
+
+ message ActionOutSetKeyControl{
+
+ }
+
+ message ActionInSmartHomeKeyControl{
+
+ }
+
+ message ActionOutSmartHomeKeyControl{
+   enum Code{
+      SUCCESS = 0;
+      NOT_INSTALLED = 1;
+   }
+
+   Code code = 1;
+ }
+
+ message ActionInSpeechKeyControl{
+
+ }
+
+ message ActionOutSpeechKeyControl{
+
+ }
+
+ message ActionInConfirmKeyControl{
+
+ }
+
+ message ActionOutConfirmKeyControl{
+
+ }
+
+
+message ActionInFocusAdjust{
+   enum Direction{
+      SHORTEN = 0;
+      LENGTHEN = 1;
+   }
+   Direction direction = 1;
+   uint32 value = 2; //mm 相对值
+}
+
+message ActionOutFocusAdjust{
+
+}
+
+message ActionInScreenCastKeyControl{
+
+}
+
+message ActionOutScreenCastKeyControl{
+  enum Code{
+     SUCCESS = 0;
+     NOT_INSTALLED = 1;
+  }
+
+  Code code = 1;
+}
+
+message ActionInRemoteKeyControl{
+
+}
+
+message ActionOutRemoteKeyControl{
+  enum Code{
+     SUCCESS = 0;
+     NOT_INSTALLED = 1;
+  }
+
+  Code code = 1;
+}
+
+message Properties{
+   int32 playSpeed = 1;
+   // action nextTrack(ActionInNextTrack) returns (ActionOutNextTrack) = 2;
+   // action previousTrack(ActionInPreviousTrack) returns (ActionOutPreviousTrack) = 3;
+   // action stop(ActionInStop) returns (ActionOutStop) = 4;
+   // action play(ActionInPlay) returns (ActionOutPlay) = 5;
+   // action pause(ActionInPause) returns (ActionOutPause) = 6;
+   // action resume(ActionInResume) returns (ActionOutResume) = 7;
+   // action recordStart(ActionInRecordStart) returns (ActionOutRecordStart) = 8;
+   // action forward(ActionInForward) returns (ActionOutForward) = 9;
+   // action rewind(ActionInRewind) returns (ActionOutRewind) = 10;
+   // action searchPrevious(ActionInSearchPrevious) returns (ActionOutSearchPrevious) = 11;
+   // action searchNext(ActionInSearchNext) returns (ActionOutSearchNext) = 12;
+   // action screenCapture(ActionInScreenCapture) returns (ActionOutScreenCapture) = 13;
+   // action recordEnd(ActionInRecordEnd) returns (ActionOutRecordEnd) = 14;
+   // action directionKeyControl(ActionInDirectionKeyControl) returns (ActionOutDirectionKeyControl) = 15;
+   // action homeKeyControl(ActionInHomeKeyControl) returns (ActionOutHomeKeyControl) = 16;
+   // action returnKeyControl(ActionInReturnKeyControl) returns (ActionOutReturnKeyControl) = 17;
+   // action menuKeyControl(ActionInMenuKeyControl) returns (ActionOutMenuKeyControl) = 18;
+   // action setKeyControl(ActionInSetKeyControl) returns (ActionOutSetKeyControl) = 19;
+   // action smartHomeKeyControl(ActionInSmartHomeKeyControl) returns (ActionOutSmartHomeKeyControl) = 20;
+   // action speechKeyControl(ActionInSpeechKeyControl) returns (ActionOutSpeechKeyControl) = 21;
+   // action confirmKeyControl(ActionInConfirmKeyControl) returns (ActionOutConfirmKeyControl) = 22;
+   // action focusAdjust(ActionInFocusAdjust) returns (ActionOutFocusAdjust) = 23;
+   // action screenCastKeyControl(ActionInScreenCastKeyControl) returns (ActionOutScreenCastKeyControl) = 24;
+   // action remoteKeyControl(ActionInRemoteKeyControl) returns (ActionOutRemoteKeyControl) = 25;
+}

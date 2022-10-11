@@ -1,0 +1,38 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file ava.proto
+ * @brief audibleAndVisualAlarm service proto
+ * @version 0.1
+ * @date 2020-8-7
+ * @author Lvxiaoqiang
+ */
+
+ syntax = "proto3";
+
+ package iot.service.ava;
+option objc_class_prefix = "Iot_Service_Ava_";
+  
+ message ActionInStartAva{
+
+ }
+ 
+ message ActionOutStartAva{
+
+ }
+ 
+ message ActionInStopAva{
+
+ }
+ 
+ message ActionOutStopAva{
+
+ }
+ 
+ message Properties{
+   bool power = 1;
+   bool alarmState = 2;
+   // action startAva(ActionInStartAva) returns (ActionOutStartAva) = 3;
+   // action stopAva(ActionInStopAva) returns (ActionOutStopAva) = 4;
+
+ }

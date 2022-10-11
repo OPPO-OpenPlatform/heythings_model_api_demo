@@ -1,0 +1,227 @@
+/**
+ * Copyright (c) 2008-2019, OPPO Mobile Comm Corp., Ltd
+ * VENDOR_EDIT
+ * @file doorbell.proto
+ * @brief doorbell service proto
+ * @version 0.2
+ * @date 2020-7-3
+ * @author Frank
+ */
+
+ syntax = "proto3";
+
+ import "common.proto";
+ 
+ package iot.service.doorbell;
+option objc_class_prefix = "Iot_Service_Doorbell_";
+ 
+ enum VoiceChangerMode{
+    ORIGIN_SOUND = 0;
+    UNCLE_SOUND = 1;
+    CLOWN_SOUND = 2;
+ }
+
+ enum PredefinedResolution{
+    R_AUTO = 0;
+    R360P = 1;
+    R720P = 2;
+    R1080P = 3;
+    R1280P = 4;
+    R1296P = 5;
+ }
+
+ enum MotionDetectionDistance{
+    D_AUTO = 0;
+    NEAR = 1;
+    MIDDLE = 2;
+    DISTANT = 3;
+ }
+
+ message AutoReplyWorkingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message LeavingWordsWorkingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ enum RingingSound{
+    SILENT  = 0;
+    RING1 = 1;
+    RING2 = 2;
+ }
+
+ message NoDisturbingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message MotionDetectionWorkingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message PushMotionDetectPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message PushStandingInDoorwayPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message PushPassingByDoorPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message PushDoorbellRingingPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message PushLeavingWordsPeriod{
+    uint32 week = 1; //bit0-bit6 correspond Monday-Sunday, bit is set meaning enable
+    uint32 fromHour = 2; //0-23
+    uint32 fromMin = 3;  //0-59
+    uint32 toHour = 4; //0-23
+    uint32 toMin = 5;  //0-59
+ }
+
+ message LeaveWord{
+    string url = 1;
+    bool status = 2;
+    uint64 time = 3;
+    bool autoDeleteEnabled = 4;
+ }
+
+ message AutoReply{
+    enum Source{
+      SYS = 0;
+      USER = 1;
+    }
+
+    string url = 1;
+    bool status = 2;
+    Source source = 3;
+ }
+
+ message EventDoorbellRinging{
+    string recordUrl = 1;
+    string thumbnaiUrl = 2;
+ }
+
+ message EventMotionDetectionStart{
+    enum ResultType{
+       PICTURE_CHANGE = 0;
+       STAYING_DOORWAY = 1;
+       PASSING_BY_DOOR = 2;
+       HUMAN_MOTION = 3;
+       ANIMAL_MOTION = 4;
+       CAT_MOTION = 5;
+       DOG_MOTION = 6;
+    }
+
+    uint64 eventStartTime = 1;
+    ResultType resultType = 2;
+    bool uploadVideoEnable = 3;
+ }
+ 
+ message EventMotionDetectionEnd{
+    enum ResultType{
+       PICTURE_CHANGE = 0;
+       STAYING_DOORWAY = 1;
+       PASSING_BY_DOOR = 2;
+       HUMAN_MOTION = 3;
+       ANIMAL_MOTION = 4;
+       CAT_MOTION = 5;
+       DOG_MOTION = 6;
+    }
+
+    uint64 eventEndTime = 1;
+    ResultType resultType = 2;
+ }
+
+ message EventLeavingWords{
+    string recordUrl = 1;
+    string thumbnaiUrl = 2;
+ }
+ 
+ message EventAntipryingAlarm{
+    string recordUrl = 1;
+    string thumbnaiUrl = 2;
+ }
+ 
+ message Properties{
+   bool power = 1;
+   VoiceChangerMode voiceChangerMode = 2;
+   bool mute = 3;
+   uint32 soundVolume = 4;
+   PredefinedResolution resolution = 5;
+   bool motionDetectionEnabled = 6;
+   MotionDetectionDistance motionDetectionDistance = 7;
+   uint32 motionDetectionRecordDuration = 8;
+   bool antipryingAlarmEnabled = 9;
+   bool autoReplyEnabled = 10;
+   AutoReplyWorkingPeriod autoReplyWorkingPeriod = 11;
+   bool leavingWordsEnabled = 12;
+   LeavingWordsWorkingPeriod leavingWordsWorkingPeriod = 13;
+   RingingSound ringingSound = 14;
+   bool noDisturbingEnabled = 15;
+   NoDisturbingPeriod noDisturbingPeriod = 16;
+   bool pushDoorbellRingingEnabled = 17;
+   bool pushPassingByDoorEnabled = 18;
+   bool pushStandingInDoorwayEnabled = 19;
+   bool pushMotionDetectionEnabled = 20;
+   bool pushLeavingWordsEnabled = 21;
+   uint32 pushDoorbellRingingSilentTime = 22;
+   uint32 pushAntipryingAlarmSilentTime = 23;
+   uint32 pushPassingByDoorSilentTime = 24;
+   uint32 pushStandingInDoorwaySilentTime = 25;
+   uint32 pushMotionDetectionSilentTime = 26;
+   uint32 pushLeavingWordsSilentTime = 27;
+   bool nightVisionEnabled = 28;
+   MotionDetectionWorkingPeriod motionDetectionWorkingPeriod = 29;
+   PushMotionDetectPeriod pushMotionDetectPeriod = 30;
+   PushStandingInDoorwayPeriod pushStandingInDoorwayPeriod = 31;
+   PushPassingByDoorPeriod pushPassingByDoorPeriod = 32;
+   PushDoorbellRingingPeriod pushDoorbellRingingPeriod = 33;
+   PushLeavingWordsPeriod pushLeavingWordsPeriod = 34;
+   repeated ArrayNode leaveWord = 35;
+   repeated ArrayNode autoReply = 36;
+   uint32 passingByDoorThreshold = 37;
+   // event doorbellRinging(EventDoorbellRinging) = 38;
+   // event antipryingAlarm(EventAntipryingAlarm) = 39;
+   // event motionDetectionStart(EventMotionDetectionStart) = 40;
+   // event leavingWords(EventLeavingWords) = 41;
+   // event motionDetectionEnd(EventMotionDetectionEnd) = 42;
+ }
+
+
